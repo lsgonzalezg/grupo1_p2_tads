@@ -1,8 +1,13 @@
 package um.edu.uy;
+import um.edu.uy.entities.*;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
+        Ratings cargar = new Ratings();
+        cargar.cargarDatos();
         Scanner scanner = new Scanner(System.in);
         int opcion = 0;
 
