@@ -1,4 +1,4 @@
-package um.edu.uy.entities;
+package um.edu.uy.entidades;
 
 public class Movies {
     boolean adult;
