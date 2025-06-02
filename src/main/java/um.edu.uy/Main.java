@@ -1,5 +1,7 @@
 package um.edu.uy;
-import um.edu.uy.entities.*;
+
+
+import um.edu.uy.entities.CargadorDeDatos;
 
 import java.util.Scanner;
 
@@ -22,8 +24,8 @@ public class Main {
             switch (opcion) {
                 case 1:
                     System.out.println("----------------------------------------------");
-                    Ratings cargar = new Ratings();
-                    cargar.cargarDatos();
+                    CargadorDeDatos cargador = new CargadorDeDatos();
+                    cargador.cargarMovies();
                     break;
                 case 2:
                     System.out.println("----------------------------------------------");

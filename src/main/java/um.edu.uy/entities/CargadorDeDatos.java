@@ -2,16 +2,15 @@ package um.edu.uy.entities;
 import java.io.FileReader;
 import com.opencsv.CSVReader;
 
-public class Ratings {
+public class CargadorDeDatos {
 
-    public Ratings() {
+    public CargadorDeDatos() {
+
     }
 
-    public void cargarDatos(){
+    public void cargarMovies(){
         try {
-            // Create an object of filereader
-            // class with CSV file as a parameter.
-            FileReader filereader = new FileReader("src/main/resources/ratings_1mm.csv");
+            FileReader filereader = new FileReader("src/main/resources/movies_metadata.csv");
 
             // create csvReader object passing
             // file reader as a parameter
@@ -24,6 +23,7 @@ public class Ratings {
                     System.out.print(cell + "\t");
                 }
                 System.out.println();
+                System.out.println(nextRecord[0] + nextRecord[1]);
             }
         }
         catch (Exception e) {
