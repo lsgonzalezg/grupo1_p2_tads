@@ -1,6 +1,4 @@
-package um.edu.uy;
 import um.edu.uy.entidades.CargadorDeDatos;
-
 import java.util.Scanner;
 
 public class Main {
