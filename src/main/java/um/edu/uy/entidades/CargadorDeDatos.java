@@ -26,6 +26,8 @@ public class CargadorDeDatos {
                 System.out.println();
                 System.out.println(nextRecord[0] + nextRecord[1]);
             }
+            System.out.println("Fin de archivo alcanzado");
+            csvReader.close();
         }
         catch (Exception e) {
             e.printStackTrace();
