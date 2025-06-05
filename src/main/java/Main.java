@@ -1,9 +1,11 @@
-import um.edu.uy.entidades.CargadorDeDatos;
+import um.edu.uy.entidades.MoviesUM;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
+        MoviesUM moviesUM = new MoviesUM();
         Scanner scanner = new Scanner(System.in);
         int opcion = 0;
 
@@ -20,8 +22,7 @@ public class Main {
             switch (opcion) {
                 case 1:
                     System.out.println("----------------------------------------------");
-                    CargadorDeDatos cargador = new CargadorDeDatos();
-                    cargador.cargarMovies();
+                    moviesUM.cargarDatos();
                     break;
                 case 2:
                     System.out.println("----------------------------------------------");
