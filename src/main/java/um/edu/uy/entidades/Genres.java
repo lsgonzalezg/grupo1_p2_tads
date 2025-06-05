@@ -1,6 +1,6 @@
 package um.edu.uy.entidades;
 
-public class Lenguaje {
-    String iso_639_1;
+public class Genres {
+    String id;
     String name;
 }

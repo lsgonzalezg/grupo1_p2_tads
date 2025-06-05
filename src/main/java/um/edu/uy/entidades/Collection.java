@@ -1,7 +1,7 @@
 package um.edu.uy.entidades;
 
-public class Saga {
+public class Collection {
     String id;
-    String nombre;
+    String name;
     Movie[] movies;
 }

@@ -4,7 +4,7 @@ public class Movie {
     String adult;
     String collection;
     String budget;
-    Generes[] generes;
+    Genres[] generes;
     String homepage;
     int id;
     String imdb_id;
@@ -21,7 +21,7 @@ public class Movie {
     String tagline;
     String title;
 
-    public Movie(String adult, String collection, String budget, Generes[] generes, String homepage, int id, String imdb_id, String originalLenguaje, String originalTittle, String overview, Company[] productionCompanies, Country[] productionCountry, String releaseDate, int revenue,String runtime, Lenguaje[] spokenLenguajes, String status, String tagline, String title) {
+    public Movie(String adult, String collection, String budget, Genres[] generes, String homepage, int id, String imdb_id, String originalLenguaje, String originalTittle, String overview, Company[] productionCompanies, Country[] productionCountry, String releaseDate, int revenue, String runtime, Lenguaje[] spokenLenguajes, String status, String tagline, String title) {
         this.adult = adult;
         this.collection = collection;
         this.budget = budget;
