@@ -30,7 +30,7 @@ public class MoviesUM {
     }
 
     public void agregarMovie(String adult, String collection, String budget, String generes, String homepage, String id, String imdb_id, String originalLenguaje, String originalTittle, String overview, String productionCompanies, String productionCountry, String releaseDate, String revenue,String runtime, String spokenLenguajes, String status, String tagline, String title){
-        Generes[] generos;
+
 
 
     }
