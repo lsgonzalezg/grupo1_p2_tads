@@ -1,6 +1,6 @@
 package um.edu.uy.entidades;
 
 public class Usuario {
-    String id;
-    Ratings[] ratings;
+    private String id;
+    private Ratings[] ratings;
 }
