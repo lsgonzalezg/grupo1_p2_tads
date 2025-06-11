@@ -5,9 +5,8 @@ public class Company {
     private String name;
     private Movie[] movies;
 
-    public Company(String id, String name, Movie[] movies) {
+    public Company(String id, String name) {
         this.id = id;
         this.name = name;
-        this.movies = movies;
     }
 }

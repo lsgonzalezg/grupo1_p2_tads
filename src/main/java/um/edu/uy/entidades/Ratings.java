@@ -5,7 +5,7 @@ import java.util.Date;
 public class Ratings {
     private Usuario usuario;
     private Movie movie;
-    private int puntaje;
+    private double puntaje;
     private Date date;
 
     public Ratings(Usuario usuario, Movie movie, int puntaje, Date date) {
