@@ -1,11 +1,11 @@
 package um.edu.uy.entidades;
 
 public class Country {
-    private String id;
+    private String iso_3166_1;
     private String name;
 
-    public Country(String id, String name) {
-        this.id = id;
+    public Country(String iso_3166_1, String name) {
+        this.iso_3166_1 = iso_3166_1;
         this.name = name;
     }
 }
