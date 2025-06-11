@@ -1,13 +1,21 @@
 package um.edu.uy.entidades;
 
-public class Company {
-    private String id;
-    private String name;
-    private Movie[] movies;
+import um.edu.uy.TADs.MyLinkedList;
 
-    public Company(String id, String name, Movie[] movies) {
+public class Company {
+    private Integer id;
+    private String name;
+    private MyLinkedList<Movie> movies;
+
+    public Company(Integer id, String name) {
         this.id = id;
         this.name = name;
-        this.movies = movies;
+        this.movies = new MyLinkedList<>();
+    }
+
+    public void addMovie(Movie movieAAgregar){
+        if(!movies.existeElemento(movieAAgregar)){
+            movies.add(movieAAgregar);
+        }
     }
 }

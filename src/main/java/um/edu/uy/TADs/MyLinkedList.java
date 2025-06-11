@@ -28,10 +28,6 @@ public class MyLinkedList<T> implements MyList<T> {
         //si quiero remover el primer elemento cambia la cabeza por el sgundo
         if (indiceDelElemento==0){
             this.setHead(head.getProximo());
-        }
-        //si el indice se sale se la lista no hago nada
-        if (indiceDelElemento >= largo){
-            System.out.println("El indice se sale de la lista");
             return;
         }
 

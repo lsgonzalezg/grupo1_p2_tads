@@ -1,15 +1,21 @@
 package um.edu.uy.TADs;
 
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter@Setter
 public class NodoHash<K extends Comparable,T> {
-    private K clave;
-    private T valor;
+    private K Clave;
+    private T Valor;
 
     public NodoHash(K clave, T valor) {
-        this.clave = clave;
-        this.valor = valor;
+        this.Clave = clave;
+        this.Valor = valor;
+    }
+
+    public K getClave() {
+        return Clave;
+    }
+
+    public T getValor() {
+        return Valor;
     }
 }

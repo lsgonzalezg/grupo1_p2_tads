@@ -15,6 +15,11 @@ public class myHashTableAbiertaLinkedList<K extends Comparable,T> implements MyH
 
     @Override
     public void insertar(K clave, T valor) throws ElementoYaExistenteException {
+
+        if (pertenece(clave)) {
+            throw new ElementoYaExistenteException("El elemento ya exsite");
+        }
+
         int indice = myHashCode(clave);
         NodoHash<K,T> nuevoNodo = new NodoHash<>(clave,valor);
         hashTable[indice].add(nuevoNodo);
@@ -51,11 +56,23 @@ public class myHashTableAbiertaLinkedList<K extends Comparable,T> implements MyH
     private int buscarIndice(K clave,MyLinkedList<NodoHash<K,T>> listaABuscar){
         int indice = 0;
         for (int i = 0;i<listaABuscar.obtenerLargo();i++){
-            if(listaABuscar.get(i).getClave() == clave){
+            if(listaABuscar.get(i).getClave().equals(clave)){
                 return indice;
             }
             indice++;
         }
         return indice;
+    }
+
+    public T buscar(K clave) {
+        int indice = myHashCode(clave);
+        MyLinkedList<NodoHash<K,T>> listaABuscar = hashTable[indice];
+        for (int i = 0; i < listaABuscar.obtenerLargo(); i++){
+            NodoHash<K, T> nodoActual = listaABuscar.get(i);
+            if(nodoActual.getClave().equals(clave)){
+                return nodoActual.getValor();
+            }
+        }
+        return null;
     }
 }

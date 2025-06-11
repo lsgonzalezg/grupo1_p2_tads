@@ -14,6 +14,8 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation(group = "org.projectlombok", name = "lombok", version = "1.18.38")
+    //repositorio de Jackson para leer formato JSON
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.19.0")
 }
 
 tasks.test {
