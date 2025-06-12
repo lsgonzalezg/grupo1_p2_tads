@@ -15,6 +15,7 @@ public class MoviesUM {
     private MyArrayList<Ratings> ratings;
     private myHashTableAbiertaLinkedList<Integer,Company> companies;
     private myHashTableAbiertaLinkedList<String,Country> countries;
+
     private myHashTableAbiertaLinkedList<String, Languaje> lenguajes;
     private myHashTableAbiertaLinkedList<Integer,Collection> collections;
 
@@ -25,6 +26,7 @@ public class MoviesUM {
         this.companies = new myHashTableAbiertaLinkedList<>(307);
         this.countries = new myHashTableAbiertaLinkedList<>(307);
         this.lenguajes = new myHashTableAbiertaLinkedList<>(307);
+
         this.collections = new myHashTableAbiertaLinkedList<>(149);
     }
 
@@ -164,7 +166,6 @@ public class MoviesUM {
         if(stringGeneros ==null){
             return new Genero[0];
         }
-
         MyArrayList<Genero> generosList = new MyArrayList<>();
         Pattern pattern = Pattern.compile("\\{'id'\\s*:\\s*(\\d+),\\s*'name'\\s*:\\s*'([^']*)'\\}");
         Matcher matcher = pattern.matcher(stringGeneros);
@@ -323,7 +324,79 @@ public class MoviesUM {
     }
 
     private void cargarCredits(){
+        try {
+            FileReader filereader = new FileReader("src/main/resources/credits.csv");
 
+            CSVReader csvReader = new CSVReader(filereader);
+            String[] nextRecord;
+
+            csvReader.readNext();
+
+            while ((nextRecord = csvReader.readNext()) != null) {
+                int idmovie = conversorAInt(nextRecord[2]);
+                Movie movieAAgregarCredits = movies.buscar(idmovie);
+                MyArrayList<Cast> cast = conversorStringCast(nextRecord[0]);
+                MyArrayList<Crew> crew = conversorStringCrew(nextRecord[1]);
+                movieAAgregarCredits.setCast(cast);
+                movieAAgregarCredits.setCrew(crew);
+            }
+        }
+        catch (Exception e){}
+    }
+
+    private MyArrayList<Cast> conversorStringCast(String stringCast){
+        if(stringCast ==null){
+            return new MyArrayList<>();
+        }
+
+        MyArrayList<Cast> castList = new MyArrayList<>();
+        Pattern pattern = Pattern.compile("\\{'cast_id':\\s*\\d+,\\s*'character':\\s*'[^']+',\\s*'credit_id':\\s*'[^']+',\\s*'gender':\\s*\\d+,\\s*'id':\\s*\\d+,\\s*'name':\\s*'[^']+',\\s*'order':\\s*\\d+,\\s*'profile_path':\\s*(?:'[^']+'|None)\\}");
+        Matcher matcher = pattern.matcher(stringCast);
+
+        while (matcher.find()) {
+            try {
+
+                Cast nuevoCast = new Cast(conversorAInt(matcher.group(0)),
+                                                        matcher.group(1),
+                                                        matcher.group(2),
+                                                        conversorAInt(matcher.group(3)),
+                                                        conversorAInt(matcher.group(4)),
+                                                        matcher.group(5),
+                                                        conversorAInt(matcher.group(6)),
+                                                        matcher.group(7));
+                castList.add(nuevoCast);
+            }
+            catch (Exception e) {
+            }
+        }
+        return castList;
+    }
+
+    private MyArrayList<Crew> conversorStringCrew(String stringCrew){
+        if(stringCrew ==null){
+            return new MyArrayList<>();
+        }
+
+        MyArrayList<Crew> crewList = new MyArrayList<>();
+        Pattern pattern = Pattern.compile("\\{'credit_id':\\s*'[^']+',\\s*'department':\\s*'[^']+',\\s*'gender':\\s*\\d+,\\s*'id':\\s*\\d+,\\s*'job':\\s*'[^']+',\\s*'name':\\s*'[^']+',\\s*'profile_path':\\s*(?:'[^']+'|None)\\}(?:,\\s*\\{'credit_id':\\s*'[^']+',\\s*'department':\\s*'[^']+',\\s*'gender':\\s*\\d+,\\s*'id':\\s*\\d+,\\s*'job':\\s*'[^']+',\\s*'name':\\s*'[^']+',\\s*'profile_path':\\s*(?:'[^']+'|None)\\})");
+        Matcher matcher = pattern.matcher(stringCrew);
+
+        while (matcher.find()) {
+            try {
+
+                Crew nuevoCrew = new Crew(conversorAInt(matcher.group(0)),
+                        matcher.group(1),
+                        conversorAInt(matcher.group(2)),
+                        matcher.group(3),
+                        matcher.group(4),
+                        matcher.group(5),
+                        matcher.group(6));
+                crewList.add(nuevoCrew);
+            }
+            catch (Exception e) {
+            }
+        }
+        return crewList;
     }
 
     private void cargarRatings(){
