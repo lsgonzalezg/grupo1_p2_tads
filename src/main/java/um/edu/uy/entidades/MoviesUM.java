@@ -16,7 +16,7 @@ public class MoviesUM {
     myHashTableAbiertaLinkedList<Integer,Collection> collections;
 
     public MoviesUM() {
-        this.movies = new myHashTableAbiertaLinkedList<>(5000);
+        this.movies = new myHashTableAbiertaLinkedList<>(5003);
         this.generos = new myHashTableAbiertaLinkedList<>(300);
         this.companies = new myHashTableAbiertaLinkedList<>(300);
         this.countries = new myHashTableAbiertaLinkedList<>(300);
@@ -26,8 +26,8 @@ public class MoviesUM {
 
     public void cargarDatos() {
         cargarMovies();
+        cargarCredits();
         //cargarRatings();
-        //cargarCredits();
     }
 
     public void cargarMovies() {
@@ -41,25 +41,25 @@ public class MoviesUM {
             csvReader.readNext();
 
             while ((nextRecord = csvReader.readNext()) != null) {
-                agregarMovie(nextRecord[0],  // adult
-                        nextRecord[1],  // belongs_to_collection
-                        nextRecord[2],  // budget
-                        nextRecord[3],  // genres
-                        nextRecord[4],  // homepage
-                        nextRecord[5],  // id
-                        nextRecord[6],  // imdb_id
-                        nextRecord[7],  // original_language
-                        nextRecord[8],  // original_title
-                        nextRecord[9],  // overview
-                        nextRecord[10], // production_companies
-                        nextRecord[11], // production_countries
-                        nextRecord[12], // release_date
-                        nextRecord[13], // revenue
-                        nextRecord[14], // runtime
-                        nextRecord[15], // spoken_languages
-                        nextRecord[16], // status
-                        nextRecord[17], // tagline
-                        nextRecord[18]  // title
+                agregarMovie(nextRecord[0],// adult
+                        nextRecord[1],// belongs_to_collection
+                        nextRecord[2],// budget
+                        nextRecord[3],// genres
+                        nextRecord[4],// homepage
+                        nextRecord[5],// id
+                        nextRecord[6],// imdb_id
+                        nextRecord[7],// original_language
+                        nextRecord[8],// original_title
+                        nextRecord[9],// overview
+                        nextRecord[10],// production_companies
+                        nextRecord[11],// production_countries
+                        nextRecord[12],// release_date
+                        nextRecord[13],// revenue
+                        nextRecord[14],// runtime
+                        nextRecord[15],// spoken_languages
+                        nextRecord[16],// status
+                        nextRecord[17],// tagline
+                        nextRecord[18]// title
                 );
             }
 
@@ -299,6 +299,10 @@ public class MoviesUM {
         }
 
         return null;
+    }
+
+    private void cargarCredits(){
+
     }
 }
 

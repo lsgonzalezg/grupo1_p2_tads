@@ -26,7 +26,7 @@ public class Main {
                     long inicio = System.currentTimeMillis();
                     moviesUM.cargarDatos();
                     long fin = System.currentTimeMillis();
-                    System.out.println("Tiempo de ejecucion:" + (fin - inicio));
+                    System.out.println("Tiempo de ejecucion:" + (fin - inicio) + " milisegundos");
                     break;
                 case 2:
                     System.out.println("----------------------------------------------");
