@@ -4,7 +4,6 @@ import um.edu.uy.TADs.MyArrayList;
 import um.edu.uy.TADs.myHashTableAbiertaLinkedList;
 import um.edu.uy.exceptions.ElementoYaExistenteException;
 import java.io.FileReader;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +14,7 @@ public class MoviesUM {
     private MyArrayList<Ratings> ratings;
     private myHashTableAbiertaLinkedList<Integer,Company> companies;
     private myHashTableAbiertaLinkedList<String,Country> countries;
-
+    private myHashTableAbiertaLinkedList<String, Usuario> usuarios;
     private myHashTableAbiertaLinkedList<String, Languaje> lenguajes;
     private myHashTableAbiertaLinkedList<Integer,Collection> collections;
 
@@ -26,7 +25,7 @@ public class MoviesUM {
         this.companies = new myHashTableAbiertaLinkedList<>(307);
         this.countries = new myHashTableAbiertaLinkedList<>(307);
         this.lenguajes = new myHashTableAbiertaLinkedList<>(307);
-
+        this.usuarios = new myHashTableAbiertaLinkedList<>(307);
         this.collections = new myHashTableAbiertaLinkedList<>(149);
     }
 
@@ -443,6 +442,10 @@ public class MoviesUM {
             if(movies.pertenece(movieIDint)){
                 Movie pelicula = movies.buscar(movieIDint);
                 pelicula.agregarRating(nuevoRating);
+            }
+            if(!usuarios.pertenece(userID)){
+                Usuario nuevo = new Usuario(userID);
+                usuarios.insertar(userID, nuevo);
             }
         }
         catch (Exception e) {
