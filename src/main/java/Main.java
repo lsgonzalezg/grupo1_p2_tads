@@ -1,6 +1,4 @@
 import um.edu.uy.entidades.MoviesUM;
-
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {

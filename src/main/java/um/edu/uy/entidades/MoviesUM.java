@@ -18,10 +18,10 @@ public class MoviesUM {
     public MoviesUM() {
         this.movies = new myHashTableAbiertaLinkedList<>(5003);
         this.generos = new MyArrayList<>();
-        this.companies = new myHashTableAbiertaLinkedList<>(300);
-        this.countries = new myHashTableAbiertaLinkedList<>(300);
-        this.lenguajes = new myHashTableAbiertaLinkedList<>(300);
-        this.collections = new myHashTableAbiertaLinkedList<>(300);
+        this.companies = new myHashTableAbiertaLinkedList<>(307);
+        this.countries = new myHashTableAbiertaLinkedList<>(307);
+        this.lenguajes = new myHashTableAbiertaLinkedList<>(307);
+        this.collections = new myHashTableAbiertaLinkedList<>(149);
     }
 
     public void cargarDatos() {
