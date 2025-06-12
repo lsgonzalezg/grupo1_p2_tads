@@ -14,7 +14,6 @@ public class MoviesUM {
     private MyArrayList<Ratings> ratings;
     private myHashTableAbiertaLinkedList<Integer,Company> companies;
     private myHashTableAbiertaLinkedList<String,Country> countries;
-    private myHashTableAbiertaLinkedList<String, Usuario> usuarios;
     private myHashTableAbiertaLinkedList<String, Languaje> lenguajes;
     private myHashTableAbiertaLinkedList<Integer,Collection> collections;
 
@@ -25,7 +24,6 @@ public class MoviesUM {
         this.companies = new myHashTableAbiertaLinkedList<>(307);
         this.countries = new myHashTableAbiertaLinkedList<>(307);
         this.lenguajes = new myHashTableAbiertaLinkedList<>(307);
-        this.usuarios = new myHashTableAbiertaLinkedList<>(307);
         this.collections = new myHashTableAbiertaLinkedList<>(149);
     }
 
@@ -442,10 +440,6 @@ public class MoviesUM {
             if(movies.pertenece(movieIDint)){
                 Movie pelicula = movies.buscar(movieIDint);
                 pelicula.agregarRating(nuevoRating);
-            }
-            if(!usuarios.pertenece(userID)){
-                Usuario nuevo = new Usuario(userID);
-                usuarios.insertar(userID, nuevo);
             }
         }
         catch (Exception e) {
