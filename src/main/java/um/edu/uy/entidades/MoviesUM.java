@@ -8,16 +8,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MoviesUM {
-    myHashTableAbiertaLinkedList<Integer, Movie> movies;
-    myHashTableAbiertaLinkedList<Integer, Genero> generos;
-    myHashTableAbiertaLinkedList<Integer,Company> companies;
-    myHashTableAbiertaLinkedList<String,Country> countries;
-    myHashTableAbiertaLinkedList<String, Languaje> lenguajes;
-    myHashTableAbiertaLinkedList<Integer,Collection> collections;
+    private myHashTableAbiertaLinkedList<Integer, Movie> movies;
+    private MyArrayList<Genero> generos;
+    private myHashTableAbiertaLinkedList<Integer,Company> companies;
+    private myHashTableAbiertaLinkedList<String,Country> countries;
+    private myHashTableAbiertaLinkedList<String, Languaje> lenguajes;
+    private myHashTableAbiertaLinkedList<Integer,Collection> collections;
 
     public MoviesUM() {
         this.movies = new myHashTableAbiertaLinkedList<>(5003);
-        this.generos = new myHashTableAbiertaLinkedList<>(300);
+        this.generos = new MyArrayList<>();
         this.companies = new myHashTableAbiertaLinkedList<>(300);
         this.countries = new myHashTableAbiertaLinkedList<>(300);
         this.lenguajes = new myHashTableAbiertaLinkedList<>(300);
@@ -110,8 +110,8 @@ public class MoviesUM {
         try {
             movies.insertar(intid, nuevaMovie);
 
-            if(nuevaMovie.productionCompanies != null){
-                for (Company company : nuevaMovie.productionCompanies) {
+            if(nuevaMovie.getProductionCompanies() != null){
+                for (Company company : nuevaMovie.getProductionCompanies()) {
                     if (company != null) {
                         company.addMovie(nuevaMovie);
                     }
@@ -119,8 +119,8 @@ public class MoviesUM {
             }
 
 
-            if (nuevaMovie.collection != null) {
-                Collection collecionDePelicula = nuevaMovie.collection;
+            if (nuevaMovie.getCollection() != null) {
+                Collection collecionDePelicula = nuevaMovie.getCollection();
                 Integer idCollection = collecionDePelicula.getId();
                 if(!collections.pertenece(idCollection)){
                     collections.insertar(idCollection, collecionDePelicula);
@@ -152,13 +152,13 @@ public class MoviesUM {
             try {
                 Integer id = Integer.parseInt(matcher.group(1));
                 String nombre = matcher.group(2);
+                Genero auxiliar = new Genero(id,nombre);
 
-                if (generos.pertenece(id)) {
-                    generosList.add(generos.buscar(id));
+                if (generos.pertenece(auxiliar)) {
+                    generosList.add(generos.get(id));
                 } else {
-                    Genero g = new Genero(id, nombre);
-                    generosList.add(g);
-                    generos.insertar(id, g);
+                    generosList.add(auxiliar);
+                    generos.add(auxiliar);
                 }
             }
             catch (Exception e) {

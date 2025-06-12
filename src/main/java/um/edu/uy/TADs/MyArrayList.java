@@ -3,10 +3,10 @@ package um.edu.uy.TADs;
 public class MyArrayList<T> {
     private T[] elementos;
     private int tamano;
-    private static final int CAPACIDAD_INICIAL = 10;
+    private static final int capacidadInicial = 10;
 
     public MyArrayList() {
-        elementos = (T[]) new Object[CAPACIDAD_INICIAL];
+        elementos = (T[]) new Object[capacidadInicial];
         tamano = 0;
     }
 
@@ -49,5 +49,14 @@ public class MyArrayList<T> {
             System.arraycopy(elementos, 0, nuevoArray, 0, elementos.length);
             elementos = nuevoArray;
         }
+    }
+
+    public boolean pertenece(T elementoABuscar){
+        for (T elemento: elementos){
+            if (elemento.equals(elementoABuscar)){
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,6 +1,5 @@
 package um.edu.uy.TADs;
 
-import lombok.Getter;
 
 public class NodoHash<K extends Comparable,T> {
     private K Clave;
