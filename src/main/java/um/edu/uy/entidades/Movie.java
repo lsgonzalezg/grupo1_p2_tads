@@ -1,5 +1,7 @@
 package um.edu.uy.entidades;
 
+import um.edu.uy.TADs.MyArrayList;
+
 public class Movie {
     private String adult;
     private Collection collection;
@@ -20,6 +22,7 @@ public class Movie {
     private String status;
     private String tagline;
     private String title;
+    private MyArrayList<Ratings> ratings;
     public Movie(String adult, Collection collection, String budget, Genero[] genres, String homepage, int id, String imdb_id, String originalLanguaje, String originalTitle, String overview, Company[] productionCompanies, Country[] productionCountry, String releaseDate, long revenue, String runtime, Languaje[] spokenLanguajes, String status, String tagline, String title) {
         this.adult = adult;
         this.collection = collection;
@@ -48,5 +51,9 @@ public class Movie {
 
     public Collection getCollection() {
         return collection;
+    }
+
+    public void agregarRating(Ratings rating) {
+        ratings.add(rating);
     }
 }

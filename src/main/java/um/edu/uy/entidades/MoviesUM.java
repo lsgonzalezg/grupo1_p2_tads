@@ -4,12 +4,15 @@ import um.edu.uy.TADs.MyArrayList;
 import um.edu.uy.TADs.myHashTableAbiertaLinkedList;
 import um.edu.uy.exceptions.ElementoYaExistenteException;
 import java.io.FileReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MoviesUM {
     private myHashTableAbiertaLinkedList<Integer, Movie> movies;
     private MyArrayList<Genero> generos;
+    private MyArrayList<Ratings> ratings;
     private myHashTableAbiertaLinkedList<Integer,Company> companies;
     private myHashTableAbiertaLinkedList<String,Country> countries;
     private myHashTableAbiertaLinkedList<String, Languaje> lenguajes;
@@ -18,6 +21,7 @@ public class MoviesUM {
     public MoviesUM() {
         this.movies = new myHashTableAbiertaLinkedList<>(5003);
         this.generos = new MyArrayList<>();
+        this.ratings = new MyArrayList<>();
         this.companies = new myHashTableAbiertaLinkedList<>(307);
         this.countries = new myHashTableAbiertaLinkedList<>(307);
         this.lenguajes = new myHashTableAbiertaLinkedList<>(307);
@@ -27,7 +31,7 @@ public class MoviesUM {
     public void cargarDatos() {
         cargarMovies();
         cargarCredits();
-        //cargarRatings();
+        cargarRatings();
     }
 
     public void cargarMovies() {
@@ -136,6 +140,23 @@ public class MoviesUM {
             return Integer.parseInt(numero);
         } catch (NumberFormatException e) {
             return 0;
+        }
+    }
+
+    private double conversorADouble(String numero) {
+        try {
+            return Double.parseDouble(numero);
+        } catch (NumberFormatException e) {
+            return 0.0;
+        }
+    }
+
+    private Date conversorATimestamp(String timestamp) {
+        try{
+            long segundos = Long.parseLong(timestamp);
+            return new Date(segundos * 1000);
+        }catch (NumberFormatException e){
+            return null;
         }
     }
 
@@ -303,6 +324,56 @@ public class MoviesUM {
 
     private void cargarCredits(){
 
+    }
+
+    private void cargarRatings(){
+        try {
+            FileReader filereader = new FileReader("src/main/resources/ratings_1mm.csv");
+
+            CSVReader csvReader = new CSVReader(filereader);
+            String[] nextRecord;
+
+
+            csvReader.readNext();
+
+            while ((nextRecord = csvReader.readNext()) != null) {
+                agregarRating(nextRecord[0], // userID
+                        nextRecord[1], // movieID
+                        nextRecord[2], // puntaje
+                        nextRecord[3]); // timestamp
+            }
+
+        }
+        catch (Exception e) {}
+    }
+
+    public void agregarRating(String userID, String movieID, String puntaje, String date){
+
+        int userIDint;
+        int movieIDint;
+        double puntajeDouble;
+        Date timestampDate;
+
+        try{
+            userIDint = conversorAInt(userID);
+            movieIDint = conversorAInt(movieID);
+            puntajeDouble = conversorADouble(puntaje);
+            timestampDate = conversorATimestamp(date);
+
+        } catch (NumberFormatException e){
+            return;
+        }
+
+        Ratings nuevoRating = new Ratings(userIDint, movieIDint, puntajeDouble, timestampDate);
+        try{
+            ratings.add(nuevoRating);
+            if(movies.pertenece(movieIDint)){
+                Movie pelicula = movies.buscar(movieIDint);
+                pelicula.agregarRating(nuevoRating);
+            }
+        }
+        catch (Exception e) {
+        }
     }
 }
 
