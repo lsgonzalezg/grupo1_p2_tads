@@ -417,7 +417,7 @@ public class MoviesUM {
         catch (Exception e) {}
     }
 
-    public void agregarRating(String userID, String movieID, String puntaje, String date){
+    private void agregarRating(String userID, String movieID, String puntaje, String date){
 
         int userIDint;
         int movieIDint;
