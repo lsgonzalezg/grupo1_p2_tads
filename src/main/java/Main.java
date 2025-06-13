@@ -45,6 +45,7 @@ public class Main {
     }
 
     public static void menuConsultas(){
+        MoviesUM moviesUM = new MoviesUM();
         Scanner scanner = new Scanner(System.in);
         int opcion2 = 0;
         while (opcion2 != 7) {
@@ -64,6 +65,10 @@ public class Main {
             switch (opcion2) {
                 case 1:
                     System.out.println("----------------------------------------------");
+                    long inicio = System.currentTimeMillis();
+                    moviesUM.top5PeliculasPorIdiomas();
+                    long fin = System.currentTimeMillis();
+                    System.out.println("Tiempo de ejecucion:" + (fin - inicio) + " milisegundos");
                     break;
                 case 2:
                     System.out.println("----------------------------------------------");

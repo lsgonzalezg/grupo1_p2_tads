@@ -445,5 +445,10 @@ public class MoviesUM {
         catch (Exception e) {
         }
     }
+
+    public void top5PeliculasPorIdiomas(){
+        myHashTableAbiertaLinkedList<String, MyArrayList<Movie>> peliculasPorIdioma = new myHashTableAbiertaLinkedList<>(100);
+        // Aca tenemos que recorrer el Hash de movies y ir metiendolas en el Hash de arriba la cual va a estar ordenado por Idioma.
+    }
 }
 
