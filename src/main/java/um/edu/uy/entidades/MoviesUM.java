@@ -436,10 +436,10 @@ public class MoviesUM {
 
         Ratings nuevoRating = new Ratings(userIDint, movieIDint, puntajeDouble, timestampDate);
         try{
-            ratings.add(nuevoRating);
             if(movies.pertenece(movieIDint)){
                 Movie pelicula = movies.buscar(movieIDint);
                 pelicula.agregarRating(nuevoRating);
+                ratings.add(nuevoRating);
             }
         }
         catch (Exception e) {
