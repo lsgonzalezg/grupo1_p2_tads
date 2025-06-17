@@ -1,6 +1,7 @@
 package um.edu.uy.entidades;
 import com.opencsv.CSVReader;
 import um.edu.uy.tads.MyArrayList;
+import um.edu.uy.tads.MyLinkedList;
 import um.edu.uy.tads.NodoHash;
 import um.edu.uy.tads.MyHashTableAbiertaLinkedList;
 import um.edu.uy.exceptions.ElementoYaExistenteException;
@@ -447,11 +448,46 @@ public class MoviesUM {
         }
     }
 
-    public void top5PeliculasRatingsPorIdiomas(){
-        MyHashTableAbiertaLinkedList<String, MyArrayList<Movie>> peliculasPorIdioma = new MyHashTableAbiertaLinkedList<>(100);
-    }
+    public void top5PeliculasRatingsPorIdiomas() {
+        MyLinkedList<Integer> clavesPeliculas = movies.claves();
 
-    private void top5(){}
+        Movie[] ingles = new Movie[5];
+        Movie[] espanol = new Movie[5];
+        Movie[] italiano = new Movie[5];
+        Movie[] portugues = new Movie[5];
+        Movie[] frances = new Movie[5];
+
+        int cantidadPeliculasIngles = 0;
+
+        for (int i =0; i < clavesPeliculas.obtenerLargo(); i++) {
+            Movie pelicula = movies.buscar(clavesPeliculas.get(i));
+            String idioma = pelicula.getOriginalLanguaje();
+            int cant_evaluaciones = pelicula.getRatings().size();
+
+            if(idioma.equals("en")){
+                if(cantidadPeliculasIngles < 5){
+                    ingles[cantidadPeliculasIngles++] = pelicula;
+                }
+                else{
+                    int indiceMinEvaluaciones = 0;
+                    for (int j = 1; j < 5; j++){
+                        if(ingles[j].getRatings().size() < ingles[indiceMinEvaluaciones].getRatings().size()){
+                            indiceMinEvaluaciones = j;
+                        }
+                    }
+                    if(cant_evaluaciones > ingles[indiceMinEvaluaciones].getRatings().size()){
+                        ingles[indiceMinEvaluaciones] = pelicula;
+                    }
+                }
+            }
+        }
+        System.out.println("Top 5 películas en inglés por cantidad de ratings:");
+        for (int i = 0; i < ingles.length; i++) {
+            if (ingles[i] != null) {
+                System.out.println(ingles[i].getId() + ", " + ingles[i].getTitle() + ", " + ingles[i].getRatings().size() + ", " + ingles[i].getOriginalLanguaje());
+            }
+        }
+    }
 
     public void top10PeliculasPorMediaDeusuario(){
         MyArrayList<NodoHash<Integer,Double>> listaMoviesRatings = new MyArrayList<>();

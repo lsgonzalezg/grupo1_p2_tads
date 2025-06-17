@@ -75,4 +75,12 @@ public class Movie {
     public MyArrayList<Ratings> getRatings(){
         return ratings;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

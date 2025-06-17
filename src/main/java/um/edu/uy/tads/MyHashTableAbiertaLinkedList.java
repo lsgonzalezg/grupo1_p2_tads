@@ -87,12 +87,15 @@ public class MyHashTableAbiertaLinkedList<K extends Comparable,T> implements MyH
         return hashTable[lugar].isEmpty();
     }
 
-    public MyLinkedList<K> claves(){
+    public MyLinkedList<K> claves() {
         MyLinkedList<K> listaClaves = new MyLinkedList<>();
-        for (int i = 0;i<size;i++){
-            MyLinkedList<NodoHash<K,T>> lista = hashTable[i];
-            for (int j = 0;j<lista.obtenerLargo();j++){
-                listaClaves.add(lista.get(i).getClave());
+
+        for (int i = 0; i < size; i++) {
+            MyLinkedList<NodoHash<K, T>> lista = hashTable[i];
+
+            for (int j = 0; j < lista.obtenerLargo(); j++) {
+                K clave = lista.get(j).getClave();
+                listaClaves.add(clave);
             }
         }
         return listaClaves;
