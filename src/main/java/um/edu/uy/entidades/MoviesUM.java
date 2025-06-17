@@ -15,7 +15,7 @@ public class MoviesUM {
     private MyArrayList<Ratings> ratings;
     private MyHashTableAbiertaLinkedList<Integer,Company> companies;
     private MyHashTableAbiertaLinkedList<String,Country> countries;
-    private MyHashTableAbiertaLinkedList<String, Languaje> lenguajes;
+    private MyArrayList<Languaje> lenguajes;
     private MyHashTableAbiertaLinkedList<Integer,Collection> collections;
 
     public MoviesUM() {
@@ -24,7 +24,7 @@ public class MoviesUM {
         this.ratings = new MyArrayList<>();
         this.companies = new MyHashTableAbiertaLinkedList<>(307);
         this.countries = new MyHashTableAbiertaLinkedList<>(307);
-        this.lenguajes = new MyHashTableAbiertaLinkedList<>(307);
+        this.lenguajes = new MyArrayList<>();
         this.collections = new MyHashTableAbiertaLinkedList<>(149);
     }
 
@@ -268,15 +268,15 @@ public class MoviesUM {
 
         while (matcher.find()) {
             try {
-                String id = matcher.group(1);
+                Integer id = Integer.parseInt(matcher.group(1));
                 String nombre = matcher.group(2);
+                Languaje auxiliar = new Languaje(id,nombre);
 
-                if (lenguajes.pertenece(id)) {
-                    lenguajesList.add(lenguajes.buscar(id));
+                if (lenguajes.pertenece(auxiliar)) {
+                    lenguajesList.add(lenguajes.get(id));
                 } else {
-                    Languaje l = new Languaje(id, nombre);
-                    lenguajesList.add(l);
-                    lenguajes.insertar(id, l);
+                    lenguajesList.add(auxiliar);
+                    lenguajes.add(auxiliar);
                 }
             }
             catch (Exception e) {
@@ -451,27 +451,29 @@ public class MoviesUM {
         MyHashTableAbiertaLinkedList<String, MyArrayList<Movie>> peliculasPorIdioma = new MyHashTableAbiertaLinkedList<>(100);
     }
 
+    private void top5(){}
+
     public void top10PeliculasPorMediaDeusuario(){
         MyArrayList<NodoHash<Integer,Double>> listaMoviesRatings = new MyArrayList<>();
         for (int lugarHash = 0 ; lugarHash<movies.getSize();lugarHash++){
             if(!movies.estaLugarVacio(lugarHash)){
-                for(int lugarLinkedList = 0; lugarLinkedList< movies.getHashTable(lugarHash).obtenerLargo();lugarLinkedList++){
-                    NodoHash<Integer,Double> peliculaConSuRating = new NodoHash<>(movies.getHashTable(lugarHash).get(lugarLinkedList).getClave(),ratingMedioMovie(movies.getHashTable(lugarHash).get(lugarLinkedList).getValor()));
+                //for(int lugarLinkedList = 0; lugarLinkedList< movies.getHashTable(lugarHash).obtenerLargo();lugarLinkedList++){
+                 //   NodoHash<Integer,Double> peliculaConSuRating = new NodoHash<>(movies.getHashTable(lugarHash).get(lugarLinkedList).getClave(),ratingMedioMovie(movies.getHashTable(lugarHash).get(lugarLinkedList).getValor()));
                 }
             }
         }
     }
 
-    private double ratingMedioMovie(Movie peliculaRatingAPromediar){
-        double promedio = 0;
-        MyArrayList<Ratings> ratingsDePelicula = peliculaRatingAPromediar.getRatings();
-        if(ratingsDePelicula == null){
-            return promedio;
-        }
-        for(int lugarRating = 0;lugarRating< ratingsDePelicula.size();lugarRating++){
-            promedio = promedio + ratingsDePelicula.get(lugarRating).getPuntaje();
-        }
-        return promedio/ratingsDePelicula.size();
-    }
-}
+    //private double ratingMedioMovie(Movie peliculaRatingAPromediar){
+    //    double promedio = 0;
+    //    MyArrayList<Ratings> ratingsDePelicula = peliculaRatingAPromediar.getRatings();
+    //    if(ratingsDePelicula == null){
+    //        return promedio;
+    //    }
+    //    for(int lugarRating = 0;lugarRating< ratingsDePelicula.size();lugarRating++){
+    //        promedio = promedio + ratingsDePelicula.get(lugarRating).getPuntaje();
+    //    }
+    //    return promedio/ratingsDePelicula.size();
+    //}
+
 

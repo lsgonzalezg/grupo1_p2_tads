@@ -25,6 +25,7 @@ public class Movie {
     private MyArrayList<Ratings> ratings;
     private MyArrayList<Cast> cast;
     private MyArrayList<Crew> crew;
+
     public Movie(String adult, Collection collection, String budget, Genero[] genres, String homepage, int id, String imdb_id, String originalLanguaje, String originalTitle, String overview, Company[] productionCompanies, Country[] productionCountry, String releaseDate, long revenue, String runtime, Languaje[] spokenLanguajes, String status, String tagline, String title) {
         this.adult = adult;
         this.collection = collection;
@@ -53,6 +54,10 @@ public class Movie {
 
     public Collection getCollection() {
         return collection;
+    }
+
+    public String getOriginalLanguaje() {
+        return originalLanguaje;
     }
 
     public void agregarRating(Ratings rating) {
