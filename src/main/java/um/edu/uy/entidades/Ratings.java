@@ -14,4 +14,8 @@ public class Ratings {
         this.puntaje = puntaje;
         this.date = date;
     }
+
+    public double getPuntaje(){
+        return puntaje;
+    }
 }

@@ -1,4 +1,4 @@
-package um.edu.uy.TADs;
+package um.edu.uy.tads;
 
 public class NodeBST <K extends Comparable<K>, T> {
     private K key;

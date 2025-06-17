@@ -1,16 +1,23 @@
-package um.edu.uy.TADs;
+package um.edu.uy.tads;
 import um.edu.uy.exceptions.ElementoYaExistenteException;
 
-public class myHashTableAbiertaLinkedList<K extends Comparable,T> implements MyHashTable<K,T>{
+public class MyHashTableAbiertaLinkedList<K extends Comparable,T> implements MyHashTable<K,T>{
     private MyLinkedList<NodoHash<K,T>>[] hashTable;
-    int size;
+    private int size;
 
-    public myHashTableAbiertaLinkedList(int size) {
+    public MyHashTableAbiertaLinkedList(int size) {
         this.hashTable = new MyLinkedList[size];
         this.size = size;
         for(int i =0;i<size;i++){
             hashTable[i] = new MyLinkedList<>();
         }
+    }
+
+    public int getSize() {
+        return size;
+    }
+    public MyLinkedList<NodoHash<K,T>> getHashTable(int lugar){
+        return hashTable[lugar];
     }
 
     @Override
@@ -74,5 +81,9 @@ public class myHashTableAbiertaLinkedList<K extends Comparable,T> implements MyH
             }
         }
         return null;
+    }
+
+    public boolean estaLugarVacio(int lugar){
+        return hashTable[lugar].isEmpty();
     }
 }

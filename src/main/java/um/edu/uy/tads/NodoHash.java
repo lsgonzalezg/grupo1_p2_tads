@@ -1,4 +1,4 @@
-package um.edu.uy.TADs;
+package um.edu.uy.tads;
 
 
 public class NodoHash<K extends Comparable,T> {

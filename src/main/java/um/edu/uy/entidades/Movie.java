@@ -1,6 +1,6 @@
 package um.edu.uy.entidades;
 
-import um.edu.uy.TADs.MyArrayList;
+import um.edu.uy.tads.MyArrayList;
 
 public class Movie {
     private String adult;
@@ -65,5 +65,9 @@ public class Movie {
 
     public void setCast(MyArrayList<Cast> cast) {
         this.cast = cast;
+    }
+
+    public MyArrayList<Ratings> getRatings(){
+        return ratings;
     }
 }

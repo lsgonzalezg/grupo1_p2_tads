@@ -1,4 +1,4 @@
-package um.edu.uy.TADs;
+package um.edu.uy.tads;
 
 public class NodoBinario<K,T> {
     public NodoBinario(K key, T data) {

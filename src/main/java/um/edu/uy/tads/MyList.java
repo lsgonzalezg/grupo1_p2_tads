@@ -1,4 +1,4 @@
-package um.edu.uy.TADs;
+package um.edu.uy.tads;
 
 public interface MyList<T> {
     public void add(T elemento);

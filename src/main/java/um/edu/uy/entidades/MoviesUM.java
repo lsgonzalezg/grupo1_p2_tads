@@ -1,7 +1,8 @@
 package um.edu.uy.entidades;
 import com.opencsv.CSVReader;
-import um.edu.uy.TADs.MyArrayList;
-import um.edu.uy.TADs.myHashTableAbiertaLinkedList;
+import um.edu.uy.tads.MyArrayList;
+import um.edu.uy.tads.NodoHash;
+import um.edu.uy.tads.MyHashTableAbiertaLinkedList;
 import um.edu.uy.exceptions.ElementoYaExistenteException;
 import java.io.FileReader;
 import java.util.Date;
@@ -9,22 +10,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MoviesUM {
-    private myHashTableAbiertaLinkedList<Integer, Movie> movies;
+    private MyHashTableAbiertaLinkedList<Integer, Movie> movies;
     private MyArrayList<Genero> generos;
     private MyArrayList<Ratings> ratings;
-    private myHashTableAbiertaLinkedList<Integer,Company> companies;
-    private myHashTableAbiertaLinkedList<String,Country> countries;
-    private myHashTableAbiertaLinkedList<String, Languaje> lenguajes;
-    private myHashTableAbiertaLinkedList<Integer,Collection> collections;
+    private MyHashTableAbiertaLinkedList<Integer,Company> companies;
+    private MyHashTableAbiertaLinkedList<String,Country> countries;
+    private MyHashTableAbiertaLinkedList<String, Languaje> lenguajes;
+    private MyHashTableAbiertaLinkedList<Integer,Collection> collections;
 
     public MoviesUM() {
-        this.movies = new myHashTableAbiertaLinkedList<>(5003);
+        this.movies = new MyHashTableAbiertaLinkedList<>(5003);
         this.generos = new MyArrayList<>();
         this.ratings = new MyArrayList<>();
-        this.companies = new myHashTableAbiertaLinkedList<>(307);
-        this.countries = new myHashTableAbiertaLinkedList<>(307);
-        this.lenguajes = new myHashTableAbiertaLinkedList<>(307);
-        this.collections = new myHashTableAbiertaLinkedList<>(149);
+        this.companies = new MyHashTableAbiertaLinkedList<>(307);
+        this.countries = new MyHashTableAbiertaLinkedList<>(307);
+        this.lenguajes = new MyHashTableAbiertaLinkedList<>(307);
+        this.collections = new MyHashTableAbiertaLinkedList<>(149);
     }
 
     public void cargarDatos() {
@@ -447,7 +448,30 @@ public class MoviesUM {
     }
 
     public void top5PeliculasRatingsPorIdiomas(){
-        myHashTableAbiertaLinkedList<String, MyArrayList<Movie>> peliculasPorIdioma = new myHashTableAbiertaLinkedList<>(100);
+        MyHashTableAbiertaLinkedList<String, MyArrayList<Movie>> peliculasPorIdioma = new MyHashTableAbiertaLinkedList<>(100);
+    }
+
+    public void top10PeliculasPorMediaDeusuario(){
+        MyArrayList<NodoHash<Integer,Double>> listaMoviesRatings = new MyArrayList<>();
+        for (int lugarHash = 0 ; lugarHash<movies.getSize();lugarHash++){
+            if(!movies.estaLugarVacio(lugarHash)){
+                for(int lugarLinkedList = 0; lugarLinkedList< movies.getHashTable(lugarHash).obtenerLargo();lugarLinkedList++){
+                    NodoHash<Integer,Double> peliculaConSuRating = new NodoHash<>(movies.getHashTable(lugarHash).get(lugarLinkedList).getClave(),ratingMedioMovie(movies.getHashTable(lugarHash).get(lugarLinkedList).getValor()));
+                }
+            }
+        }
+    }
+
+    private double ratingMedioMovie(Movie peliculaRatingAPromediar){
+        double promedio = 0;
+        MyArrayList<Ratings> ratingsDePelicula = peliculaRatingAPromediar.getRatings();
+        if(ratingsDePelicula == null){
+            return promedio;
+        }
+        for(int lugarRating = 0;lugarRating< ratingsDePelicula.size();lugarRating++){
+            promedio = promedio + ratingsDePelicula.get(lugarRating).getPuntaje();
+        }
+        return promedio/ratingsDePelicula.size();
     }
 }
 

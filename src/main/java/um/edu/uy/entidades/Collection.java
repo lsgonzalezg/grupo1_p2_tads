@@ -1,6 +1,6 @@
 package um.edu.uy.entidades;
 
-import um.edu.uy.TADs.MyLinkedList;
+import um.edu.uy.tads.MyLinkedList;
 
 public class Collection {
     private Integer id;
