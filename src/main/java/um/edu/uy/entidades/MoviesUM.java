@@ -449,19 +449,19 @@ public class MoviesUM {
     }
 
     public void top5PeliculasRatingsPorIdiomas() {
+
         MyLinkedList<Integer> clavesPeliculas = movies.claves();
 
         Movie[] ingles = new Movie[5];
-        Movie[] espanol = new Movie[5];
-        Movie[] italiano = new Movie[5];
-        Movie[] portugues = new Movie[5];
-        Movie[] frances = new Movie[5];
 
         int cantidadPeliculasIngles = 0;
 
-        for (int i =0; i < clavesPeliculas.obtenerLargo(); i++) {
+        for (int i = 0; i < clavesPeliculas.obtenerLargo(); i++) {
             Movie pelicula = movies.buscar(clavesPeliculas.get(i));
-            String idioma = pelicula.getOriginalLanguaje();
+            if(pelicula.getRatings()==null){
+                continue;
+            }
+            String idioma = pelicula.getOriginalLanguage();
             int cant_evaluaciones = pelicula.getRatings().size();
 
             if(idioma.equals("en")){
@@ -484,8 +484,9 @@ public class MoviesUM {
         System.out.println("Top 5 películas en inglés por cantidad de ratings:");
         for (int i = 0; i < ingles.length; i++) {
             if (ingles[i] != null) {
-                System.out.println(ingles[i].getId() + ", " + ingles[i].getTitle() + ", " + ingles[i].getRatings().size() + ", " + ingles[i].getOriginalLanguaje());
+                System.out.println(ingles[i].getId() + ", " + ingles[i].getTitle() + ", " + ingles[i].getRatings().size() + ", " + ingles[i].getOriginalLanguage());
             }
+
         }
     }
 

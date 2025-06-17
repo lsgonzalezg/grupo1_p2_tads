@@ -28,7 +28,7 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("----------------------------------------------");
-                    menuConsultas();
+                    menuConsultas(moviesUM);
                     break;
                 case 3:
                     System.out.println("----------------------------------------------");
@@ -44,8 +44,7 @@ public class Main {
         scanner.close();
     }
 
-    public static void menuConsultas(){
-        MoviesUM moviesUM = new MoviesUM();
+    public static void menuConsultas(MoviesUM moviesUM){
         Scanner scanner = new Scanner(System.in);
         int opcion2 = 0;
         while (opcion2 != 7) {
