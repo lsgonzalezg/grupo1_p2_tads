@@ -88,4 +88,13 @@ public class Movie {
         return revenue;
     }
 
+    public double RatingMedio(){
+        if (ratings == null || ratings.size() == 0)
+            return 0.0;
+        double sum = 0.0;
+        for (int i = 0; i < ratings.size(); i++) {
+            sum += ratings.get(i).getScore();
+        }
+        return sum / ratings.size();
+    }
 }

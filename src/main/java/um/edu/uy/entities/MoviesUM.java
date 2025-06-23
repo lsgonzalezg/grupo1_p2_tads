@@ -547,16 +547,5 @@ public class MoviesUM {
         }
     }
 
-    //private double ratingMedioMovie(Movie peliculaRatingAPromediar){
-    //    double promedio = 0;
-    //    MyArrayList<Ratings> ratingsDePelicula = peliculaRatingAPromediar.getRatings();
-    //    if(ratingsDePelicula == null){
-    //        return promedio;
-    //    }
-    //    for(int lugarRating = 0;lugarRating< ratingsDePelicula.size();lugarRating++){
-    //        promedio = promedio + ratingsDePelicula.get(lugarRating).getPuntaje();
-    //    }
-    //    return promedio/ratingsDePelicula.size();
-    //}
 
 
