@@ -2,11 +2,11 @@ package um.edu.uy.entities;
 import com.opencsv.CSVReader;
 import um.edu.uy.tads.MyArrayList;
 import um.edu.uy.tads.MyLinkedList;
-import um.edu.uy.tads.NodeHash;
 import um.edu.uy.tads.MyHashTableAbiertaLinkedList;
 import um.edu.uy.exceptions.ElementAlreadyExistException;
 import java.io.FileReader;
 import java.util.Date;
+import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -119,6 +119,7 @@ public class MoviesUM {
                 for (Company company : newMovie.getProductionCompanies()) {
                     if (company != null) {
                         company.addMovie(newMovie);
+                        company.sumarRevenue(newMovie.getRevenue());
                     }
                 }
             }
@@ -505,29 +506,24 @@ public class MoviesUM {
                 }
             }
         }
-        System.out.println("Top 5 películas en Inglés por cantidad de ratings:");
+        System.out.println("--Top 5 películas en Inglés por cantidad de ratings:");
         for (int i = 0; i < english.length; i++) {
-            if (english[i] != null || spanish[i] != null) {
                 System.out.println(english[i].getId() + ", " + english[i].getTitle() + ", " + english[i].getRatings().size() + ", " + english[i].getOriginalLanguage());
-            }
         }
-        System.out.println("Top 5 películas en Español por cantidad de ratings:");
+
+        System.out.println("--Top 5 películas en Español por cantidad de ratings:");
         for (int i = 0; i < spanish.length; i++) {
-            if (spanish[i] != null) {
-                System.out.println(spanish[i].getId() + ", " + spanish[i].getTitle() + ", " + spanish[i].getRatings().size() + ", " + spanish[i].getOriginalLanguage());
-            }
+            System.out.println(spanish[i].getId() + ", " + spanish[i].getTitle() + ", " + spanish[i].getRatings().size() + ", " + spanish[i].getOriginalLanguage());
         }
-        System.out.println("Top 5 películas en Frances por cantidad de ratings:");
+
+        System.out.println("--Top 5 películas en Frances por cantidad de ratings:");
         for (int i = 0; i < french.length; i++) {
-            if (english[i] != null || spanish[i] != null) {
                 System.out.println(french[i].getId() + ", " + french[i].getTitle() + ", " + french[i].getRatings().size() + ", " + french[i].getOriginalLanguage());
-            }
         }
-        System.out.println("Top 5 películas en Italiano por cantidad de ratings:");
+
+        System.out.println("--Top 5 películas en Italiano por cantidad de ratings:");
         for (int i = 0; i < italian.length; i++) {
-            if (spanish[i] != null) {
                 System.out.println(italian[i].getId() + ", " + italian[i].getTitle() + ", " + italian[i].getRatings().size() + ", " + italian[i].getOriginalLanguage());
-            }
         }
     }
 
@@ -545,10 +541,10 @@ public class MoviesUM {
     public void top5RevenuesPerCompanies() {
         Company[] topCompanies = new Company[5];
         int cant_Companies = 0;
-        MyLinkedList<Integer> clavesCompanies = companies.claves();
+        MyLinkedList<Integer> keysCompanies = companies.claves();
 
-        for (int i = 0; i < clavesCompanies.obtenerLargo(); i++) {
-            Company company = companies.search(clavesCompanies.get(i));
+        for (int i = 0; i < keysCompanies.obtenerLargo(); i++) {
+            Company company = companies.search(keysCompanies.get(i));
             long revenueTotal = company.calculateTotalRevenue();
 
             if (cant_Companies < 5) {
@@ -581,7 +577,9 @@ public class MoviesUM {
     }
 
     public void top10DirectorsByAverageRating() {
-        MyLinkedList<Integer> keysPeliculas = movies.claves();
+    }
+
+    public void UserMostRatingsByGenre() {
     }
 }
 

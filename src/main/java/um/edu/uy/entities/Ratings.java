@@ -18,4 +18,9 @@ public class Ratings {
     public double getScore(){
         return score;
     }
+
+    public int getMovieID() {
+        return movieID;
+    }
+
 }

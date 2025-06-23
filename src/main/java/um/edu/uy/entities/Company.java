@@ -6,6 +6,7 @@ public class Company {
     private Integer id;
     private String name;
     private MyLinkedList<Movie> movies;
+    private long totalRevenue;
 
     public Company(Integer id, String name) {
         this.id = id;
@@ -31,15 +32,11 @@ public class Company {
         return movies;
     }
 
+    public void sumarRevenue(long revenue) {
+        this.totalRevenue += revenue;
+    }
 
     public long calculateTotalRevenue(){
-        long totalRevenue = 0;
-        for(int i=0; i<movies.obtenerLargo(); i++){
-            Movie movie = movies.get(i);
-            if (movie != null) {
-                totalRevenue += movie.getRevenue();
-            }
-        }
         return totalRevenue;
     }
 }
