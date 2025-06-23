@@ -24,7 +24,7 @@ public class Main {
                     long start = System.currentTimeMillis();
                     moviesUM.loadData();
                     long finish = System.currentTimeMillis();
-                    System.out.println("Tiempo de ejecucion:" + (start - finish) + " milisegundos");
+                    System.out.println("Tiempo de ejecucion:" + (finish - start) + " milisegundos");
                     break;
                 case 2:
                     System.out.println("----------------------------------------------");
@@ -67,13 +67,17 @@ public class Main {
                     long start = System.currentTimeMillis();
                     moviesUM.top5MoviesRatingsByLanguage();
                     long finish = System.currentTimeMillis();
-                    System.out.println("Tiempo de ejecucion:" + (start - finish) + " milisegundos");
+                    System.out.println("Tiempo de ejecucion:" + (finish - start) + " milisegundos");
                     break;
                 case 2:
                     System.out.println("----------------------------------------------");
                     break;
                 case 3:
                     System.out.println("----------------------------------------------");
+                    long start3 = System.currentTimeMillis();
+                    moviesUM.top5RevenuesPerCompanies();
+                    long finish3 = System.currentTimeMillis();
+                    System.out.println("Tiempo de ejecucion:" + (finish3 - start3) + " milisegundos");
                     break;
                 case 4:
                     System.out.println("----------------------------------------------");

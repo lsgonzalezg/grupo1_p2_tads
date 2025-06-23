@@ -457,26 +457,21 @@ public class MoviesUM {
         int cant_EnglishMovies = 0;
 
         for (int i = 0; i < keysPeliculas.obtenerLargo(); i++) {
-            Movie pelicula = movies.search(keysPeliculas.get(i));
-            if(pelicula.getRatings()==null){
+            Movie movie = movies.search(keysPeliculas.get(i));
+            if(movie.getRatings()==null){
                 continue;
             }
-            String language = pelicula.getOriginalLanguage();
-            int cant_ratings = pelicula.getRatings().size();
+            String language = movie.getOriginalLanguage();
+            int cant_ratings = movie.getRatings().size();
 
             if(language.equals("en")){
                 if(cant_EnglishMovies < 5){
-                    english[cant_EnglishMovies++] = pelicula;
+                    insertSortedByRatings(english, movie, ++cant_EnglishMovies);
                 }
-                else{
-                    int indiceMinEvaluaciones = 0;
-                    for (int j = 1; j < 5; j++){
-                        if(english[j].getRatings().size() < english[indiceMinEvaluaciones].getRatings().size()){
-                            indiceMinEvaluaciones = j;
-                        }
-                    }
-                    if(cant_ratings > english[indiceMinEvaluaciones].getRatings().size()){
-                        english[indiceMinEvaluaciones] = pelicula;
+                else {
+                    int worstRatingCount = english[4].getRatings().size();
+                    if (cant_ratings > worstRatingCount) {
+                        insertSortedByRatings(english, movie, 5);
                     }
                 }
             }
@@ -488,6 +483,55 @@ public class MoviesUM {
             }
 
         }
+    }
+
+    private void insertSortedByRatings(Movie[] top, Movie newMovie, int cant_Top) {
+        int newMovieRating = newMovie.getRatings().size();
+        int i = cant_Top - 1;
+
+        while (i > 0 && top[i - 1] != null && top[i -1].getRatings().size() < newMovieRating) {
+            top[i] = top[i - 1];
+            i--;
+        }
+        top[i] = newMovie;
+    }
+
+    public void top5RevenuesPerCompanies() {
+        Company[] topCompanies = new Company[5];
+        int cant_Companies = 0;
+        MyLinkedList<Integer> clavesCompanies = companies.claves();
+
+        for (int i = 0; i < clavesCompanies.obtenerLargo(); i++) {
+            Company company = companies.search(clavesCompanies.get(i));
+            long revenueTotal = company.calculateTotalRevenue();
+
+            if(cant_Companies < 5){
+                insertSortedByRevenue(topCompanies,company,++cant_Companies);
+            }else{
+                long worstRevenue = topCompanies[4].calculateTotalRevenue();
+                if(revenueTotal > worstRevenue){
+                    insertSortedByRevenue(topCompanies, company, 5);
+                }
+            }
+        }
+        System.out.println("Top 5 de las colecciones que mas generaron:");
+        for (int i = 0; i < topCompanies.length; i++) {
+            if (topCompanies[i] != null) {
+                System.out.println(topCompanies[i].getId() + ", " + topCompanies[i].getName() + ", " + topCompanies[i].getMovies().obtenerLargo() + ", " + topCompanies[i].calculateTotalRevenue());
+            }
+
+        }
+    }
+
+    private void insertSortedByRevenue(Company[] top, Company newCompany, int cant_Top) {
+        long newCompanyRevenue = newCompany.calculateTotalRevenue();
+        int i = cant_Top - 1;
+
+        while (i > 0 && top[i - 1] != null && top[i -1].calculateTotalRevenue() < newCompanyRevenue) {
+            top[i] = top[i - 1];
+            i--;
+        }
+        top[i] = newCompany;
     }
 
     public void top10PeliculasPorMediaDeusuario(){

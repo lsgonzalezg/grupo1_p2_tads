@@ -13,9 +13,33 @@ public class Company {
         this.movies = new MyLinkedList<>();
     }
 
-    public void addMovie(Movie movieAAgregar){
-        if(!movies.existeElemento(movieAAgregar)){
-            movies.add(movieAAgregar);
+    public void addMovie(Movie movieToAdd){
+        if(!movies.existeElemento(movieToAdd)){
+            movies.add(movieToAdd);
         }
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public MyLinkedList<Movie> getMovies() {
+        return movies;
+    }
+
+
+    public long calculateTotalRevenue(){
+        long totalRevenue = 0;
+        for(int i=0; i<movies.obtenerLargo(); i++){
+            Movie movie = movies.get(i);
+            if (movie != null) {
+                totalRevenue += movie.getRevenue();
+            }
+        }
+        return totalRevenue;
     }
 }

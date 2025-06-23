@@ -83,4 +83,9 @@ public class Movie {
     public int getId() {
         return id;
     }
+
+    public long getRevenue() {
+        return revenue;
+    }
+
 }
