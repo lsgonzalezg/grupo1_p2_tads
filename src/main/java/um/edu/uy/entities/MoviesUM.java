@@ -31,8 +31,11 @@ public class MoviesUM {
 
     public void loadData() {
         loadMovies();
+        System.out.println(movies.search(862).getTitle());
+        System.out.println(movies.search(55123).getTitle());
         loadCredits();
         loadRatings();
+        System.out.println(movies.search(862).getRatings().get(0).getScore());
     }
 
     public void loadMovies() {

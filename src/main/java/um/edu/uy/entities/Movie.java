@@ -46,6 +46,7 @@ public class Movie {
         this.status = status;
         this.tagline = tagline;
         this.title = title;
+        this.ratings = new MyArrayList<>();
     }
 
     public Company[] getProductionCompanies() {
