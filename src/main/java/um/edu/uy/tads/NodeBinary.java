@@ -1,15 +1,15 @@
 package um.edu.uy.tads;
 
-public class NodoBinario<K,T> {
-    public NodoBinario(K key, T data) {
+public class NodeBinary<K,T> {
+    public NodeBinary(K key, T data) {
         this.key = key;
         this.data = data;
     }
 
     private K key;
     private T data;
-    private NodoBinario<K, T> leftChild;
-    private NodoBinario<K, T> rightChild;
+    private NodeBinary<K, T> leftChild;
+    private NodeBinary<K, T> rightChild;
 
 
     public K getKey() {
@@ -20,11 +20,11 @@ public class NodoBinario<K,T> {
         return data;
     }
 
-    public NodoBinario<K, T> getLeftChild() {
+    public NodeBinary<K, T> getLeftChild() {
         return leftChild;
     }
 
-    public NodoBinario<K, T> getRightChild() {
+    public NodeBinary<K, T> getRightChild() {
         return rightChild;
     }
 
@@ -36,11 +36,11 @@ public class NodoBinario<K,T> {
         this.data = data;
     }
 
-    public void setLeftChild(NodoBinario<K, T> leftChild) {
+    public void setLeftChild(NodeBinary<K, T> leftChild) {
         this.leftChild = leftChild;
     }
 
-    public void setRightChild(NodoBinario<K, T> rightChild) {
+    public void setRightChild(NodeBinary<K, T> rightChild) {
         this.rightChild = rightChild;
     }
 }

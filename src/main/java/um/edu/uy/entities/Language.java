@@ -1,10 +1,10 @@
-package um.edu.uy.entidades;
+package um.edu.uy.entities;
 
-public class Languaje {
+public class Language {
     private int iso_639_1;
     private String name;
 
-    public Languaje(int iso_639_1, String name) {
+    public Language(int iso_639_1, String name) {
         this.iso_639_1 = iso_639_1;
         this.name = name;
     }

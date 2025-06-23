@@ -1,4 +1,4 @@
-package um.edu.uy.entidades;
+package um.edu.uy.entities;
 
 import um.edu.uy.tads.MyLinkedList;
 
@@ -17,9 +17,9 @@ public class Collection {
         this.movies = new MyLinkedList<>();
     }
 
-    public void agragarMovie(Movie movieAAgregar){
-        if(!movies.existeElemento(movieAAgregar)){
-            movies.add(movieAAgregar);
+    public void addMovie(Movie movieToAdd){
+        if(!movies.existeElemento(movieToAdd)){
+            movies.add(movieToAdd);
         }
     }
 

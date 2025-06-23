@@ -1,4 +1,4 @@
-package um.edu.uy.entidades;
+package um.edu.uy.entities;
 
 public class Cast {
     private Integer cast_id;

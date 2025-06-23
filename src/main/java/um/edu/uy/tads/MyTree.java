@@ -2,15 +2,15 @@ package um.edu.uy.tads;
 
 
 import um.edu.uy.exceptions.EmptyTreeException;
-import um.edu.uy.exceptions.NodoLLeno;
+import um.edu.uy.exceptions.NodeFull;
 
 public interface MyTree <K,T>{
     T find(K key);
-    void insert (K key, T data, K parentKey) throws NodoLLeno;
+    void insert (K key, T data, K parentKey) throws NodeFull;
     void delete (K key) throws EmptyTreeException;
-    int size(NodoBinario<K,T> nodo);
-    int countLeaf(NodoBinario<K,T> nodo);
-    int countCompleteElements(NodoBinario<K,T> nodo);
+    int size(NodeBinary<K,T> nodo);
+    int countLeaf(NodeBinary<K,T> nodo);
+    int countCompleteElements(NodeBinary<K,T> nodo);
     MyLinkedList<K> inOrder();
     MyLinkedList<K> preOrder();
     MyLinkedList<K> posOrder();

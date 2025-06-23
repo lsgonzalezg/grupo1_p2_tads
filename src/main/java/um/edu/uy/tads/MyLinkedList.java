@@ -3,16 +3,16 @@ package um.edu.uy.tads;
 
 public class MyLinkedList<T> implements MyList<T> {
 
-    private Nodo<T> head;
+    private Node<T> head;
 
     @Override
     public void add(T elemento) {
-        Nodo<T> nuevo = new Nodo<T>(elemento);
+        Node<T> nuevo = new Node<T>(elemento);
         if (head == null) {
             head = nuevo;
         }
         else {
-            Nodo<T> ultimo = this.getUltimo();
+            Node<T> ultimo = this.getUltimo();
             ultimo.setProximo(nuevo);
         }
     }
@@ -31,14 +31,14 @@ public class MyLinkedList<T> implements MyList<T> {
             return;
         }
 
-        Nodo<T> nodoAnterior = this.obtenerNodo(indiceDelElemento - 1);
-        Nodo<T> nodoARemover = this.obtenerNodo(indiceDelElemento);
+        Node<T> nodeAnterior = this.obtenerNodo(indiceDelElemento - 1);
+        Node<T> nodeARemover = this.obtenerNodo(indiceDelElemento);
 
         // If removing the last node
-        if (nodoARemover.getProximo() == null) {
-            nodoAnterior.setProximo(null);
+        if (nodeARemover.getProximo() == null) {
+            nodeAnterior.setProximo(null);
         } else {
-            nodoAnterior.setProximo(nodoARemover.getProximo());
+            nodeAnterior.setProximo(nodeARemover.getProximo());
         }
 
     }
@@ -48,11 +48,11 @@ public class MyLinkedList<T> implements MyList<T> {
         if (index >= this.obtenerLargo()) {
             throw new IndexOutOfBoundsException("El indice no existe en la lista");
         }
-        Nodo<T> nodoABuscar = head;
+        Node<T> nodeABuscar = head;
         for (int i = 0; i < index; i++) {
-            nodoABuscar = nodoABuscar.getProximo();
+            nodeABuscar = nodeABuscar.getProximo();
         }
-        return nodoABuscar.getElemento();
+        return nodeABuscar.getElemento();
     }
 
     public int obtenerLargo() {
@@ -60,19 +60,19 @@ public class MyLinkedList<T> implements MyList<T> {
             return 0;
         }
         int largo = 0;
-        Nodo<T> nodo = head;
-        if (nodo.getProximo() == null) {
+        Node<T> node = head;
+        if (node.getProximo() == null) {
             return 1;
         }
-        while (nodo != null) {
+        while (node != null) {
             largo++;
-            nodo = nodo.getProximo();
+            node = node.getProximo();
         }
         return largo;
     }
 
     public boolean existeElemento(T elemento) {
-        Nodo<T> elementoComparado = head;
+        Node<T> elementoComparado = head;
         while (elementoComparado != null) {
             if (elementoComparado.getElemento().equals(elemento)) {
                 return true;
@@ -83,31 +83,31 @@ public class MyLinkedList<T> implements MyList<T> {
     }
 
     public void addFirst(T value){
-        Nodo<T> nuevoHead = new Nodo(value);
+        Node<T> nuevoHead = new Node(value);
         nuevoHead.setProximo(head);
         this.setHead(nuevoHead);
     }
 
     public void addLast(T value){
-        Nodo<T> nuevoCola = new Nodo<T>(value);
+        Node<T> nuevoCola = new Node<T>(value);
         if (head == null) {
             head = nuevoCola;
         } else {
-            Nodo<T>ultimo = getUltimo();
+            Node<T> ultimo = getUltimo();
             ultimo.setProximo(nuevoCola);
         }
     }
 
-    public Nodo<T> getHead() {
+    public Node<T> getHead() {
         return head;
     }
 
-    private void setHead(Nodo<T> value) {
+    private void setHead(Node<T> value) {
         this.head = value;
     }
 
-    public Nodo<T> getUltimo() {
-        Nodo<T> ultimo = head;
+    public Node<T> getUltimo() {
+        Node<T> ultimo = head;
         if (head == null){
             return null;
         }
@@ -117,18 +117,18 @@ public class MyLinkedList<T> implements MyList<T> {
         return ultimo;
     }
 
-    private Nodo obtenerNodo(int indice){
+    private Node obtenerNodo(int indice){
         if (indice == 0){
             return head;
         }
         if (indice > this.obtenerLargo()){
             return null;
         }
-        Nodo nodoABuscar = this.getHead();
+        Node nodeABuscar = this.getHead();
         for (int i = 0; i < indice; i++) {
-            nodoABuscar = nodoABuscar.getProximo();
+            nodeABuscar = nodeABuscar.getProximo();
         }
-        return nodoABuscar;
+        return nodeABuscar;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class MyLinkedList<T> implements MyList<T> {
         }
 
         StringBuilder sb = new StringBuilder();
-        Nodo<T> actual = this.head;
+        Node<T> actual = this.head;
 
         while (actual != null) {
             sb.append(actual.getElemento()).append(" ");

@@ -1,4 +1,4 @@
-import um.edu.uy.entidades.MoviesUM;
+import um.edu.uy.entities.MoviesUM;
 import java.util.Scanner;
 
 public class Main {
@@ -22,7 +22,7 @@ public class Main {
                 case 1:
                     System.out.println("----------------------------------------------");
                     long inicio = System.currentTimeMillis();
-                    moviesUM.cargarDatos();
+                    moviesUM.loadData();
                     long fin = System.currentTimeMillis();
                     System.out.println("Tiempo de ejecucion:" + (fin - inicio) + " milisegundos");
                     break;
@@ -65,7 +65,7 @@ public class Main {
                 case 1:
                     System.out.println("----------------------------------------------");
                     long inicio = System.currentTimeMillis();
-                    moviesUM.top5PeliculasRatingsPorIdiomas();
+                    moviesUM.top5MoviesRatingsByLanguage();
                     long fin = System.currentTimeMillis();
                     System.out.println("Tiempo de ejecucion:" + (fin - inicio) + " milisegundos");
                     break;

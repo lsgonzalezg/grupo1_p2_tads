@@ -1,10 +1,10 @@
-package um.edu.uy.entidades;
+package um.edu.uy.entities;
 
-public class Genero {
+public class Genre {
     private Integer id;
     private String name;
 
-    public Genero(Integer id, String name) {
+    public Genre(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

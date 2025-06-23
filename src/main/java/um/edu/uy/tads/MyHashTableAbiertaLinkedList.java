@@ -1,8 +1,8 @@
 package um.edu.uy.tads;
-import um.edu.uy.exceptions.ElementoYaExistenteException;
+import um.edu.uy.exceptions.ElementAlreadyExistException;
 
 public class MyHashTableAbiertaLinkedList<K extends Comparable,T> implements MyHashTable<K,T>{
-    private MyLinkedList<NodoHash<K,T>>[] hashTable;
+    private MyLinkedList<NodeHash<K,T>>[] hashTable;
     private int size;
 
     public MyHashTableAbiertaLinkedList(int size) {
@@ -16,19 +16,19 @@ public class MyHashTableAbiertaLinkedList<K extends Comparable,T> implements MyH
     public int getSize() {
         return size;
     }
-    public MyLinkedList<NodoHash<K,T>> getHashTable(int lugar){
+    public MyLinkedList<NodeHash<K,T>> getHashTable(int lugar){
         return hashTable[lugar];
     }
 
     @Override
-    public void insertar(K clave, T valor) throws ElementoYaExistenteException {
+    public void insert(K clave, T valor) throws ElementAlreadyExistException {
 
-        if (pertenece(clave)) {
-            throw new ElementoYaExistenteException("El elemento ya exsite");
+        if (belongs(clave)) {
+            throw new ElementAlreadyExistException("El elemento ya exsite");
         }
 
         int indice = myHashCode(clave);
-        NodoHash<K,T> nuevoNodo = new NodoHash<>(clave,valor);
+        NodeHash<K,T> nuevoNodo = new NodeHash<>(clave,valor);
         hashTable[indice].add(nuevoNodo);
     }
 
@@ -38,9 +38,9 @@ public class MyHashTableAbiertaLinkedList<K extends Comparable,T> implements MyH
     }
 
     @Override
-    public boolean pertenece(K clave) {
+    public boolean belongs(K clave) {
         int indice = myHashCode(clave);
-        MyLinkedList<NodoHash<K,T>> listaABuscar = hashTable[indice];
+        MyLinkedList<NodeHash<K,T>> listaABuscar = hashTable[indice];
         for (int i = 0;i<listaABuscar.obtenerLargo();i++){
             if(listaABuscar.get(i).getClave().equals(clave)){
                 return true;
@@ -51,16 +51,16 @@ public class MyHashTableAbiertaLinkedList<K extends Comparable,T> implements MyH
 
     @Override
     public void borrar(K clave) {
-        if(pertenece(clave)){
+        if(belongs(clave)){
             int indice = myHashCode(clave);
-            MyLinkedList<NodoHash<K,T>> listaABuscar = hashTable[indice];
+            MyLinkedList<NodeHash<K,T>> listaABuscar = hashTable[indice];
             int indiceABorrar = buscarIndice(clave,listaABuscar);
             listaABuscar.remove(indiceABorrar);
         }
 
     }
 
-    private int buscarIndice(K clave,MyLinkedList<NodoHash<K,T>> listaABuscar){
+    private int buscarIndice(K clave,MyLinkedList<NodeHash<K,T>> listaABuscar){
         int indice = 0;
         for (int i = 0;i<listaABuscar.obtenerLargo();i++){
             if(listaABuscar.get(i).getClave().equals(clave)){
@@ -71,11 +71,11 @@ public class MyHashTableAbiertaLinkedList<K extends Comparable,T> implements MyH
         return indice;
     }
 
-    public T buscar(K clave) {
+    public T search(K clave) {
         int indice = myHashCode(clave);
-        MyLinkedList<NodoHash<K,T>> listaABuscar = hashTable[indice];
+        MyLinkedList<NodeHash<K,T>> listaABuscar = hashTable[indice];
         for (int i = 0; i < listaABuscar.obtenerLargo(); i++){
-            NodoHash<K, T> nodoActual = listaABuscar.get(i);
+            NodeHash<K, T> nodoActual = listaABuscar.get(i);
             if(nodoActual.getClave().equals(clave)){
                 return nodoActual.getValor();
             }
@@ -91,7 +91,7 @@ public class MyHashTableAbiertaLinkedList<K extends Comparable,T> implements MyH
         MyLinkedList<K> listaClaves = new MyLinkedList<>();
 
         for (int i = 0; i < size; i++) {
-            MyLinkedList<NodoHash<K, T>> lista = hashTable[i];
+            MyLinkedList<NodeHash<K, T>> lista = hashTable[i];
 
             for (int j = 0; j < lista.obtenerLargo(); j++) {
                 K clave = lista.get(j).getClave();

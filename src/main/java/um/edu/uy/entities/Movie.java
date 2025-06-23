@@ -1,4 +1,4 @@
-package um.edu.uy.entidades;
+package um.edu.uy.entities;
 
 import um.edu.uy.tads.MyArrayList;
 
@@ -6,7 +6,7 @@ public class Movie {
     private String adult;
     private Collection collection;
     private String budget;
-    private Genero[] genres;
+    private Genre[] genres;
     private String homepage;
     private int id;
     private String imdb_id;
@@ -18,7 +18,7 @@ public class Movie {
     private String releaseDate;//esto podria ser date
     private long revenue;
     private String runtime;
-    private Languaje[] spokenLanguajes;
+    private Language[] spokenLanguages;
     private String status;
     private String tagline;
     private String title;
@@ -26,7 +26,7 @@ public class Movie {
     private MyArrayList<Cast> cast;
     private MyArrayList<Crew> crew;
 
-    public Movie(String adult, Collection collection, String budget, Genero[] genres, String homepage, int id, String imdb_id, String originalLanguage, String originalTitle, String overview, Company[] productionCompanies, Country[] productionCountry, String releaseDate, long revenue, String runtime, Languaje[] spokenLanguajes, String status, String tagline, String title) {
+    public Movie(String adult, Collection collection, String budget, Genre[] genres, String homepage, int id, String imdb_id, String originalLanguage, String originalTitle, String overview, Company[] productionCompanies, Country[] productionCountry, String releaseDate, long revenue, String runtime, Language[] spokenLanguages, String status, String tagline, String title) {
         this.adult = adult;
         this.collection = collection;
         this.budget = budget;
@@ -42,7 +42,7 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.revenue = revenue;
         this.runtime = runtime;
-        this.spokenLanguajes = spokenLanguajes;
+        this.spokenLanguages = spokenLanguages;
         this.status = status;
         this.tagline = tagline;
         this.title = title;
@@ -60,7 +60,7 @@ public class Movie {
         return originalLanguage;
     }
 
-    public void agregarRating(Ratings rating) {
+    public void addRating(Ratings rating) {
         ratings.add(rating);
     }
 

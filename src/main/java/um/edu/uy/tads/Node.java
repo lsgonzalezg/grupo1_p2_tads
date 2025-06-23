@@ -1,12 +1,12 @@
 package um.edu.uy.tads;
 
-public class Nodo <T> {
+public class Node<T> {
     T elemento;
-    Nodo proximo;
+    Node proximo;
     int prioridad;
 
 
-    public Nodo(T elemento) {
+    public Node(T elemento) {
         this.elemento = elemento;
         this.proximo = null;
         this.prioridad = 0;
@@ -27,11 +27,11 @@ public class Nodo <T> {
         this.elemento = elemento;
     }
 
-    public Nodo<T> getProximo() {
+    public Node<T> getProximo() {
         return proximo;
     }
 
-    public void setProximo(Nodo<T> proximo) {
+    public void setProximo(Node<T> proximo) {
         this.proximo = proximo;
     }
 }

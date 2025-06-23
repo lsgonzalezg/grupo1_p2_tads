@@ -1,4 +1,4 @@
-package um.edu.uy.entidades;
+package um.edu.uy.entities;
 
 import um.edu.uy.tads.MyLinkedList;
 

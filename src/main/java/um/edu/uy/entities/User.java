@@ -1,10 +1,10 @@
-package um.edu.uy.entidades;
+package um.edu.uy.entities;
 
-public class Usuario {
+public class User {
     private String id;
     private Ratings[] ratings;
 
-    public Usuario(String id) {
+    public User(String id) {
         this.id = id;
     }
 }

@@ -1,10 +1,10 @@
-package um.edu.uy.entidades;
+package um.edu.uy.entities;
 import com.opencsv.CSVReader;
 import um.edu.uy.tads.MyArrayList;
 import um.edu.uy.tads.MyLinkedList;
-import um.edu.uy.tads.NodoHash;
+import um.edu.uy.tads.NodeHash;
 import um.edu.uy.tads.MyHashTableAbiertaLinkedList;
-import um.edu.uy.exceptions.ElementoYaExistenteException;
+import um.edu.uy.exceptions.ElementAlreadyExistException;
 import java.io.FileReader;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -12,30 +12,30 @@ import java.util.regex.Pattern;
 
 public class MoviesUM {
     private MyHashTableAbiertaLinkedList<Integer, Movie> movies;
-    private MyArrayList<Genero> generos;
+    private MyArrayList<Genre> genre;
     private MyArrayList<Ratings> ratings;
     private MyHashTableAbiertaLinkedList<Integer,Company> companies;
     private MyHashTableAbiertaLinkedList<String,Country> countries;
-    private MyArrayList<Languaje> lenguajes;
+    private MyArrayList<Language> languages;
     private MyHashTableAbiertaLinkedList<Integer,Collection> collections;
 
     public MoviesUM() {
         this.movies = new MyHashTableAbiertaLinkedList<>(5003);
-        this.generos = new MyArrayList<>();
+        this.genre = new MyArrayList<>();
         this.ratings = new MyArrayList<>();
         this.companies = new MyHashTableAbiertaLinkedList<>(307);
         this.countries = new MyHashTableAbiertaLinkedList<>(307);
-        this.lenguajes = new MyArrayList<>();
+        this.languages = new MyArrayList<>();
         this.collections = new MyHashTableAbiertaLinkedList<>(149);
     }
 
-    public void cargarDatos() {
-        cargarMovies();
-        cargarCredits();
-        cargarRatings();
+    public void loadData() {
+        loadMovies();
+        loadCredits();
+        loadRatings();
     }
 
-    public void cargarMovies() {
+    public void loadMovies() {
         try {
             FileReader filereader = new FileReader("src/main/resources/movies_metadata.csv");
 
@@ -46,7 +46,7 @@ public class MoviesUM {
             csvReader.readNext();
 
             while ((nextRecord = csvReader.readNext()) != null) {
-                agregarMovie(nextRecord[0],// adult
+                addMovie(nextRecord[0],// adult
                         nextRecord[1],// belongs_to_collection
                         nextRecord[2],// budget
                         nextRecord[3],// genres
@@ -72,34 +72,34 @@ public class MoviesUM {
         catch (Exception e) {}
     }
 
-    public void agregarMovie(String adult, String collection, String budget, String generos,
-                             String homepage, String id, String imdb_id, String originalLenguaje,
+    public void addMovie(String adult, String collection, String budget, String genres,
+                             String homepage, String id, String imdb_id, String originalLenguage,
                              String originalTitle, String overview, String productionCompanies,
                              String productionCountry, String releaseDate, String revenue, String runtime,
-                             String spokenLenguajes, String status, String tagline, String title) {
+                             String spokenLenguages, String status, String tagline, String title) {
 
         int intid;
         try {
-            intid = conversorAInt(id);
+            intid = converterInt(id);
         } catch (NumberFormatException e) {
             return;
         }
 
-        int intrevenue = conversorAInt(revenue);
-        Genero[] arrayGeneros = conversorStringGeneros(generos);
-        Company[] arrayCompany = conversorStringCompany(productionCompanies);
-        Country[] arrayCountry = conversorStringCountry(productionCountry);
-        Languaje[] arrayLanguajes = conversorStringLnguajes(spokenLenguajes);
-        Collection objectCollection = conversorStringCollection(collection);
+        int intrevenue = converterInt(revenue);
+        Genre[] arrayGenres = converterStringGeneros(genres);
+        Company[] arrayCompany = converterStringCompany(productionCompanies);
+        Country[] arrayCountry = converterStringCountry(productionCountry);
+        Language[] arrayLanguages = converterStringLanguages(spokenLenguages);
+        Collection objectCollection = converterStringCollection(collection);
 
-        Movie nuevaMovie = new Movie(adult,
+        Movie newMovie = new Movie(adult,
                                 objectCollection,
                                 budget,
-                                arrayGeneros,
+                arrayGenres,
                                 homepage,
                                 intid,
                                 imdb_id,
-                                originalLenguaje,
+                                originalLenguage,
                                 originalTitle,
                                 overview,
                                 arrayCompany,
@@ -107,125 +107,125 @@ public class MoviesUM {
                                 releaseDate,
                                 intrevenue,
                                 runtime,
-                                arrayLanguajes,
+                arrayLanguages,
                                 status,
                                 tagline,
                                 title);
 
         try {
-            movies.insertar(intid, nuevaMovie);
+            movies.insert(intid, newMovie);
 
-            if(nuevaMovie.getProductionCompanies() != null){
-                for (Company company : nuevaMovie.getProductionCompanies()) {
+            if(newMovie.getProductionCompanies() != null){
+                for (Company company : newMovie.getProductionCompanies()) {
                     if (company != null) {
-                        company.addMovie(nuevaMovie);
+                        company.addMovie(newMovie);
                     }
                 }
             }
 
 
-            if (nuevaMovie.getCollection() != null) {
-                Collection collecionDePelicula = nuevaMovie.getCollection();
-                Integer idCollection = collecionDePelicula.getId();
-                if(!collections.pertenece(idCollection)){
-                    collections.insertar(idCollection, collecionDePelicula);
+            if (newMovie.getCollection() != null) {
+                Collection colletionOfMovie = newMovie.getCollection();
+                Integer idCollection = colletionOfMovie.getId();
+                if(!collections.belongs(idCollection)){
+                    collections.insert(idCollection, colletionOfMovie);
                 }
-                collecionDePelicula.agragarMovie(nuevaMovie);
+                colletionOfMovie.addMovie(newMovie);
             }
         }
-        catch (ElementoYaExistenteException e) {}
+        catch (ElementAlreadyExistException e) {}
     }
 
-    private int conversorAInt(String numero) {
+    private int converterInt(String number) {
         try {
-            return Integer.parseInt(numero);
+            return Integer.parseInt(number);
         } catch (NumberFormatException e) {
             return 0;
         }
     }
 
-    private double conversorADouble(String numero) {
+    private double converterDouble(String number) {
         try {
-            return Double.parseDouble(numero);
+            return Double.parseDouble(number);
         } catch (NumberFormatException e) {
             return 0.0;
         }
     }
 
-    private Date conversorATimestamp(String timestamp) {
+    private Date converterTimestamp(String timestamp) {
         try{
-            long segundos = Long.parseLong(timestamp);
-            return new Date(segundos * 1000);
+            long seconds = Long.parseLong(timestamp);
+            return new Date(seconds * 1000);
         }catch (NumberFormatException e){
             return null;
         }
     }
 
-    private Genero[] conversorStringGeneros(String stringGeneros) {
-        if(stringGeneros ==null){
-            return new Genero[0];
+    private Genre[] converterStringGeneros(String stringGenres) {
+        if(stringGenres ==null){
+            return new Genre[0];
         }
-        MyArrayList<Genero> generosList = new MyArrayList<>();
+        MyArrayList<Genre> generosList = new MyArrayList<>();
         Pattern pattern = Pattern.compile("\\{'id'\\s*:\\s*(\\d+),\\s*'name'\\s*:\\s*'([^']*)'\\}");
-        Matcher matcher = pattern.matcher(stringGeneros);
+        Matcher matcher = pattern.matcher(stringGenres);
 
         while (matcher.find()) {
             try {
                 Integer id = Integer.parseInt(matcher.group(1));
-                String nombre = matcher.group(2);
-                Genero auxiliar = new Genero(id,nombre);
+                String name = matcher.group(2);
+                Genre aux = new Genre(id,name);
 
-                if (generos.pertenece(auxiliar)) {
-                    generosList.add(generos.get(id));
+                if (genre.pertenece(aux)) {
+                    generosList.add(genre.get(id));
                 } else {
-                    generosList.add(auxiliar);
-                    generos.add(auxiliar);
+                    generosList.add(aux);
+                    genre.add(aux);
                 }
             }
             catch (Exception e) {
             }
         }
-        Genero[] resultado = new Genero[generosList.size()];
+        Genre[] result = new Genre[generosList.size()];
         for (int i = 0; i < generosList.size(); i++) {
-            resultado[i] = generosList.get(i);
+            result[i] = generosList.get(i);
         }
-        return resultado;
+        return result;
     }
 
-    private Company[] conversorStringCompany(String stringCompanias) {
-        if(stringCompanias ==null){
+    private Company[] converterStringCompany(String stringCompanies) {
+        if(stringCompanies ==null){
             return new Company[0];
         }
         MyArrayList<Company> companyList = new MyArrayList<>();
 
         Pattern pattern = Pattern.compile("\\{'name'\\s*:\\s*'([^']*)',\\s*'id'\\s*:\\s*(\\d+)\\}");
-        Matcher matcher = pattern.matcher(stringCompanias);
+        Matcher matcher = pattern.matcher(stringCompanies);
 
         while (matcher.find()) {
             try {
-                String nombre = matcher.group(1);
+                String name = matcher.group(1);
                 Integer id = Integer.parseInt(matcher.group(2));
 
-                if (companies.pertenece(id)) {
-                    companyList.add(companies.buscar(id));
+                if (companies.belongs(id)) {
+                    companyList.add(companies.search(id));
                 } else {
-                    Company c = new Company(id, nombre);
+                    Company c = new Company(id, name);
                     companyList.add(c);
-                    companies.insertar(id, c);
+                    companies.insert(id, c);
                 }
             }
             catch (Exception e) {
             }
         }
-        Company[] resultado = new Company[companyList.size()];
+        Company[] result = new Company[companyList.size()];
         for (int i = 0; i < companyList.size(); i++) {
-            resultado[i] = companyList.get(i);
+            result[i] = companyList.get(i);
         }
 
-        return resultado;
+        return result;
     }
 
-    private Country[] conversorStringCountry(String stringCountries){
+    private Country[] converterStringCountry(String stringCountries){
         if(stringCountries ==null){
             return new Country[0];
         }
@@ -237,62 +237,62 @@ public class MoviesUM {
         while (matcher.find()) {
             try {
                 String id = matcher.group(1);
-                String nombre = matcher.group(2);
+                String name = matcher.group(2);
 
-                if (countries.pertenece(id)) {
-                    countriesList.add(countries.buscar(id));
+                if (countries.belongs(id)) {
+                    countriesList.add(countries.search(id));
                 } else {
-                    Country c = new Country(id, nombre);
+                    Country c = new Country(id, name);
                     countriesList.add(c);
-                    countries.insertar(id, c);
+                    countries.insert(id, c);
                 }
             }
             catch (Exception e) {
             }
         }
-        Country[] resultado = new Country[countriesList.size()];
+        Country[] result = new Country[countriesList.size()];
         for (int i = 0; i < countriesList.size(); i++) {
-            resultado[i] = countriesList.get(i);
+            result[i] = countriesList.get(i);
         }
 
-        return resultado;
+        return result;
     }
 
-    private Languaje[] conversorStringLnguajes(String stringLenguajes){
-        if(stringLenguajes ==null){
-            return new Languaje[0];
+    private Language[] converterStringLanguages(String stringLanguages){
+        if(stringLanguages ==null){
+            return new Language[0];
         }
-        MyArrayList<Languaje> lenguajesList = new MyArrayList<>();
+        MyArrayList<Language> languagesList = new MyArrayList<>();
 
         Pattern pattern = Pattern.compile("\\{'iso_639_1'\\s*:\\s*'([a-z]{2})'\\s*,\\s*'name'\\s*:\\s*'([^']*)'\\}");
-        Matcher matcher = pattern.matcher(stringLenguajes);
+        Matcher matcher = pattern.matcher(stringLanguages);
 
         while (matcher.find()) {
             try {
                 Integer id = Integer.parseInt(matcher.group(1));
-                String nombre = matcher.group(2);
-                Languaje auxiliar = new Languaje(id,nombre);
+                String name = matcher.group(2);
+                Language aux = new Language(id,name);
 
-                if (lenguajes.pertenece(auxiliar)) {
-                    lenguajesList.add(lenguajes.get(id));
+                if (languages.pertenece(aux)) {
+                    languagesList.add(languages.get(id));
                 } else {
-                    lenguajesList.add(auxiliar);
-                    lenguajes.add(auxiliar);
+                    languagesList.add(aux);
+                    languages.add(aux);
                 }
             }
             catch (Exception e) {
             }
         }
-        Languaje[] resultado = new Languaje[lenguajesList.size()];
-        for (int i = 0; i < lenguajesList.size(); i++) {
-            resultado[i] = lenguajesList.get(i);
+        Language[] result = new Language[languagesList.size()];
+        for (int i = 0; i < languagesList.size(); i++) {
+            result[i] = languagesList.get(i);
         }
 
-        return resultado;
+        return result;
 
     }
 
-    private Collection conversorStringCollection(String stringCollection){
+    private Collection converterStringCollection(String stringCollection){
         if (stringCollection == null) {
             return null;
         }
@@ -304,15 +304,15 @@ public class MoviesUM {
             try{
                 int id = Integer.parseInt(matcher.group(1));
 
-                if (collections.pertenece(id)) {
-                    return collections.buscar(id);
+                if (collections.belongs(id)) {
+                    return collections.search(id);
                 } else {
                     String name = matcher.group(2);
                     String posterPath = matcher.group(3).equals("None") ? null : matcher.group(3).replace("'", "");
                     String backdropPath = matcher.group(4).equals("None") ? null : matcher.group(4).replace("'", "");
 
-                    Collection nuevaCollection = new Collection(id, name, posterPath, backdropPath);
-                    return nuevaCollection;
+                    Collection newCollection = new Collection(id, name, posterPath, backdropPath);
+                    return newCollection;
                 }
             } catch (Exception e) {
                 return null;
@@ -322,7 +322,7 @@ public class MoviesUM {
         return null;
     }
 
-    private void cargarCredits(){
+    private void loadCredits(){
         try {
             FileReader filereader = new FileReader("src/main/resources/credits.csv");
 
@@ -332,18 +332,18 @@ public class MoviesUM {
             csvReader.readNext();
 
             while ((nextRecord = csvReader.readNext()) != null) {
-                int idmovie = conversorAInt(nextRecord[2]);
-                Movie movieAAgregarCredits = movies.buscar(idmovie);
-                MyArrayList<Cast> cast = conversorStringCast(nextRecord[0]);
-                MyArrayList<Crew> crew = conversorStringCrew(nextRecord[1]);
-                movieAAgregarCredits.setCast(cast);
-                movieAAgregarCredits.setCrew(crew);
+                int idmovie = converterInt(nextRecord[2]);
+                Movie movieToAddCredits = movies.search(idmovie);
+                MyArrayList<Cast> cast = converterStringCast(nextRecord[0]);
+                MyArrayList<Crew> crew = converterStringCrew(nextRecord[1]);
+                movieToAddCredits.setCast(cast);
+                movieToAddCredits.setCrew(crew);
             }
         }
         catch (Exception e){}
     }
 
-    private MyArrayList<Cast> conversorStringCast(String stringCast){
+    private MyArrayList<Cast> converterStringCast(String stringCast){
         if(stringCast ==null){
             return new MyArrayList<>();
         }
@@ -355,15 +355,15 @@ public class MoviesUM {
         while (matcher.find()) {
             try {
 
-                Cast nuevoCast = new Cast(conversorAInt(matcher.group(0)),
+                Cast newCast = new Cast(converterInt(matcher.group(0)),
                                                         matcher.group(1),
                                                         matcher.group(2),
-                                                        conversorAInt(matcher.group(3)),
-                                                        conversorAInt(matcher.group(4)),
+                                                        converterInt(matcher.group(3)),
+                                                        converterInt(matcher.group(4)),
                                                         matcher.group(5),
-                                                        conversorAInt(matcher.group(6)),
+                                                        converterInt(matcher.group(6)),
                                                         matcher.group(7));
-                castList.add(nuevoCast);
+                castList.add(newCast);
             }
             catch (Exception e) {
             }
@@ -371,7 +371,7 @@ public class MoviesUM {
         return castList;
     }
 
-    private MyArrayList<Crew> conversorStringCrew(String stringCrew){
+    private MyArrayList<Crew> converterStringCrew(String stringCrew){
         if(stringCrew ==null){
             return new MyArrayList<>();
         }
@@ -383,14 +383,14 @@ public class MoviesUM {
         while (matcher.find()) {
             try {
 
-                Crew nuevoCrew = new Crew(conversorAInt(matcher.group(0)),
+                Crew newCrew = new Crew(converterInt(matcher.group(0)),
                         matcher.group(1),
-                        conversorAInt(matcher.group(2)),
+                        converterInt(matcher.group(2)),
                         matcher.group(3),
                         matcher.group(4),
                         matcher.group(5),
                         matcher.group(6));
-                crewList.add(nuevoCrew);
+                crewList.add(newCrew);
             }
             catch (Exception e) {
             }
@@ -398,7 +398,7 @@ public class MoviesUM {
         return crewList;
     }
 
-    private void cargarRatings(){
+    private void loadRatings(){
         try {
             FileReader filereader = new FileReader("src/main/resources/ratings_1mm.csv");
 
@@ -409,9 +409,9 @@ public class MoviesUM {
             csvReader.readNext();
 
             while ((nextRecord = csvReader.readNext()) != null) {
-                agregarRating(nextRecord[0], // userID
+                addRating(nextRecord[0], // userID
                         nextRecord[1], // movieID
-                        nextRecord[2], // puntaje
+                        nextRecord[2], // score
                         nextRecord[3]); // timestamp
             }
 
@@ -419,79 +419,79 @@ public class MoviesUM {
         catch (Exception e) {}
     }
 
-    private void agregarRating(String userID, String movieID, String puntaje, String date){
+    private void addRating(String userID, String movieID, String score, String date){
 
         int userIDint;
         int movieIDint;
-        double puntajeDouble;
+        double scoreDouble;
         Date timestampDate;
 
         try{
-            userIDint = conversorAInt(userID);
-            movieIDint = conversorAInt(movieID);
-            puntajeDouble = conversorADouble(puntaje);
-            timestampDate = conversorATimestamp(date);
+            userIDint = converterInt(userID);
+            movieIDint = converterInt(movieID);
+            scoreDouble = converterDouble(score);
+            timestampDate = converterTimestamp(date);
 
         } catch (NumberFormatException e){
             return;
         }
 
-        Ratings nuevoRating = new Ratings(userIDint, movieIDint, puntajeDouble, timestampDate);
+        Ratings newRating = new Ratings(userIDint, movieIDint, scoreDouble, timestampDate);
         try{
-            if(movies.pertenece(movieIDint)){
-                Movie pelicula = movies.buscar(movieIDint);
-                pelicula.agregarRating(nuevoRating);
-                ratings.add(nuevoRating);
+            if(movies.belongs(movieIDint)){
+                Movie movie = movies.search(movieIDint);
+                movie.addRating(newRating);
+                ratings.add(newRating);
             }
         }
         catch (Exception e) {
         }
     }
 
-    public void top5PeliculasRatingsPorIdiomas() {
+    public void top5MoviesRatingsByLanguage() {
 
-        MyLinkedList<Integer> clavesPeliculas = movies.claves();
+        MyLinkedList<Integer> keysPeliculas = movies.claves();
 
-        Movie[] ingles = new Movie[5];
+        Movie[] english = new Movie[5];
 
-        int cantidadPeliculasIngles = 0;
+        int cant_EnglishMovies = 0;
 
-        for (int i = 0; i < clavesPeliculas.obtenerLargo(); i++) {
-            Movie pelicula = movies.buscar(clavesPeliculas.get(i));
+        for (int i = 0; i < keysPeliculas.obtenerLargo(); i++) {
+            Movie pelicula = movies.search(keysPeliculas.get(i));
             if(pelicula.getRatings()==null){
                 continue;
             }
-            String idioma = pelicula.getOriginalLanguage();
-            int cant_evaluaciones = pelicula.getRatings().size();
+            String language = pelicula.getOriginalLanguage();
+            int cant_ratings = pelicula.getRatings().size();
 
-            if(idioma.equals("en")){
-                if(cantidadPeliculasIngles < 5){
-                    ingles[cantidadPeliculasIngles++] = pelicula;
+            if(language.equals("en")){
+                if(cant_EnglishMovies < 5){
+                    english[cant_EnglishMovies++] = pelicula;
                 }
                 else{
                     int indiceMinEvaluaciones = 0;
                     for (int j = 1; j < 5; j++){
-                        if(ingles[j].getRatings().size() < ingles[indiceMinEvaluaciones].getRatings().size()){
+                        if(english[j].getRatings().size() < english[indiceMinEvaluaciones].getRatings().size()){
                             indiceMinEvaluaciones = j;
                         }
                     }
-                    if(cant_evaluaciones > ingles[indiceMinEvaluaciones].getRatings().size()){
-                        ingles[indiceMinEvaluaciones] = pelicula;
+                    if(cant_ratings > english[indiceMinEvaluaciones].getRatings().size()){
+                        english[indiceMinEvaluaciones] = pelicula;
                     }
                 }
             }
         }
         System.out.println("Top 5 películas en inglés por cantidad de ratings:");
-        for (int i = 0; i < ingles.length; i++) {
-            if (ingles[i] != null) {
-                System.out.println(ingles[i].getId() + ", " + ingles[i].getTitle() + ", " + ingles[i].getRatings().size() + ", " + ingles[i].getOriginalLanguage());
+        for (int i = 0; i < english.length; i++) {
+            if (english[i] != null) {
+                System.out.println(english[i].getId() + ", " + english[i].getTitle() + ", " + english[i].getRatings().size() + ", " + english[i].getOriginalLanguage());
             }
 
         }
     }
 
     public void top10PeliculasPorMediaDeusuario(){
-        MyArrayList<NodoHash<Integer,Double>> listaMoviesRatings = new MyArrayList<>();
+        MyArrayList<NodeHash<Integer,Double>> listaMoviesRatings = new MyArrayList<>();
         for (int lugarHash = 0 ; lugarHash<movies.getSize();lugarHash++){
             if(!movies.estaLugarVacio(lugarHash)){
                 //for(int lugarLinkedList = 0; lugarLinkedList< movies.getHashTable(lugarHash).obtenerLargo();lugarLinkedList++){
