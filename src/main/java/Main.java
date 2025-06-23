@@ -21,10 +21,10 @@ public class Main {
             switch (opcion) {
                 case 1:
                     System.out.println("----------------------------------------------");
-                    long inicio = System.currentTimeMillis();
+                    long start = System.currentTimeMillis();
                     moviesUM.loadData();
-                    long fin = System.currentTimeMillis();
-                    System.out.println("Tiempo de ejecucion:" + (fin - inicio) + " milisegundos");
+                    long finish = System.currentTimeMillis();
+                    System.out.println("Tiempo de ejecucion:" + (start - finish) + " milisegundos");
                     break;
                 case 2:
                     System.out.println("----------------------------------------------");
@@ -64,10 +64,10 @@ public class Main {
             switch (opcion2) {
                 case 1:
                     System.out.println("----------------------------------------------");
-                    long inicio = System.currentTimeMillis();
+                    long start = System.currentTimeMillis();
                     moviesUM.top5MoviesRatingsByLanguage();
-                    long fin = System.currentTimeMillis();
-                    System.out.println("Tiempo de ejecucion:" + (fin - inicio) + " milisegundos");
+                    long finish = System.currentTimeMillis();
+                    System.out.println("Tiempo de ejecucion:" + (start - finish) + " milisegundos");
                     break;
                 case 2:
                     System.out.println("----------------------------------------------");
