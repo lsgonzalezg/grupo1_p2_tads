@@ -449,9 +449,7 @@ public class MoviesUM {
     }
 
     public void top5MoviesRatingsByLanguage() {
-
         MyLinkedList<Integer> keysPeliculas = movies.claves();
-
         Movie[] english = new Movie[5];
 
         int cant_EnglishMovies = 0;
@@ -485,15 +483,15 @@ public class MoviesUM {
         }
     }
 
-    private void insertSortedByRatings(Movie[] top, Movie newMovie, int cant_Top) {
+    private void insertSortedByRatings(Movie[] array, Movie newMovie, int cant_Top) {
         int newMovieRating = newMovie.getRatings().size();
         int i = cant_Top - 1;
 
-        while (i > 0 && top[i - 1] != null && top[i -1].getRatings().size() < newMovieRating) {
-            top[i] = top[i - 1];
+        while (i > 0 && array[i - 1] != null && array[i -1].getRatings().size() < newMovieRating) {
+            array[i] = array[i - 1];
             i--;
         }
-        top[i] = newMovie;
+        array[i] = newMovie;
     }
 
     public void top5RevenuesPerCompanies() {
@@ -523,15 +521,19 @@ public class MoviesUM {
         }
     }
 
-    private void insertSortedByRevenue(Company[] top, Company newCompany, int cant_Top) {
+    private void insertSortedByRevenue(Company[] array, Company newCompany, int cant_Top) {
         long newCompanyRevenue = newCompany.calculateTotalRevenue();
         int i = cant_Top - 1;
 
-        while (i > 0 && top[i - 1] != null && top[i -1].calculateTotalRevenue() < newCompanyRevenue) {
-            top[i] = top[i - 1];
+        while (i > 0 && array[i - 1] != null && array[i -1].calculateTotalRevenue() < newCompanyRevenue) {
+            array[i] = array[i - 1];
             i--;
         }
-        top[i] = newCompany;
+        array[i] = newCompany;
+    }
+
+    public void top10DirectorsByAverageRating() {
+        MyLinkedList<Integer> keysPeliculas = movies.claves();
     }
 
     public void top10PeliculasPorMediaDeusuario(){
