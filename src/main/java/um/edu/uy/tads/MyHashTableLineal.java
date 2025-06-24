@@ -8,13 +8,13 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
-public class MiTablaHashLinear<K extends Comparable<K>, V> implements MyHashTable<K, V>, Iterable<NodeHash<K, V>> {
+public class MyHashTableLineal<K extends Comparable<K>, V> implements MyHashTable<K, V>, Iterable<NodeHash<K, V>> {
 
     private NodeHash<K, V>[] tabla;
     private int tamanio;       // Número de elementos
     private int capacidad;   // Capacidad de la tabla
 
-    public MiTablaHashLinear(int capacidadInicial) {
+    public MyHashTableLineal(int capacidadInicial) {
         this.capacidad = capacidadInicial;
         this.tabla = (NodeHash<K, V>[]) new NodeHash[this.capacidad];
         this.tamanio = 0;

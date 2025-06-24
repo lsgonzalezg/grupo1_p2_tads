@@ -94,5 +94,4 @@ public class Movie {
     public long getRevenue() {
         return revenue;
     }
-
 }

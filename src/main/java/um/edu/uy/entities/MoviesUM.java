@@ -4,29 +4,30 @@ import um.edu.uy.exceptions.ElementDosentExistException;
 import um.edu.uy.tads.*;
 import um.edu.uy.exceptions.ElementAlreadyExistException;
 
-import javax.print.attribute.standard.PresentationDirection;
 import java.io.FileReader;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MoviesUM {
-    private MiTablaHashLinear<Integer, Movie> movies;
-    private MyArrayList<Genre> genre;
+    private MyHashTableLineal<Integer, Movie> movies;
+    private MyArrayList<Genre> genres;
     private MyArrayList<Ratings> ratings;
-    private MiTablaHashLinear<Integer, Company> companies;
-    private MiTablaHashLinear<String, Country> countries;
+    private MyHashTableLineal<Integer, Company> companies;
+    private MyHashTableLineal<String, Country> countries;
     private MyArrayList<Language> languages;
-    private MiTablaHashLinear<Integer, Collection> collections;
+    private MyHashTableLineal<Integer, Collection> collections;
+    private MyHashTableLineal<Integer, User> users;
 
     public MoviesUM() {
-        this.movies = new MiTablaHashLinear<>(13);
-        this.genre = new MyArrayList<>();
+        this.movies = new MyHashTableLineal<>(13);
+        this.genres = new MyArrayList<>();
         this.ratings = new MyArrayList<>();
-        this.companies = new MiTablaHashLinear<>(13);
-        this.countries = new MiTablaHashLinear<>(13);
+        this.companies = new MyHashTableLineal<>(13);
+        this.countries = new MyHashTableLineal<>(13);
         this.languages = new MyArrayList<>();
-        this.collections = new MiTablaHashLinear<>(13);
+        this.collections = new MyHashTableLineal<>(13);
+        this.users = new MyHashTableLineal<>(13);
     }
 
     public void loadData() {
@@ -76,7 +77,7 @@ public class MoviesUM {
         }
     }
 
-    public void addMovie(String adult, String collection, String budget, String genres,
+    public void addMovie(String adult, String collection, String budget, String genre,
                          String homepage, String id, String imdb_id, String originalLenguage,
                          String originalTitle, String overview, String productionCompanies,
                          String productionCountry, String releaseDate, String revenue, String runtime,
@@ -84,17 +85,17 @@ public class MoviesUM {
 
         int intid;
         try {
-            intid = converterInt(id);
+            intid = Converters.converterInt(id);
         } catch (NumberFormatException e) {
             return;
         }
 
-        long longRevenue = converterLong(revenue);
-        Genre[] arrayGenres = converterStringGeneros(genres);
-        Company[] arrayCompany = converterStringCompany(productionCompanies);
-        Country[] arrayCountry = converterStringCountry(productionCountry);
-        Language[] arrayLanguages = converterStringLanguages(spokenLenguages);
-        Collection objectCollection = converterStringCollection(collection);
+        long longRevenue = Converters.converterLong(revenue);
+        Genre[] arrayGenres = Converters.converterStringGeneros(genre, genres);
+        Company[] arrayCompany = Converters.converterStringCompany(productionCompanies, companies);
+        Country[] arrayCountry = Converters.converterStringCountry(productionCountry, countries);
+        Language[] arrayLanguages = Converters.converterStringLanguages(spokenLenguages, languages);
+        Collection objectCollection = Converters.converterStringCollection(collection, collections);
 
         Movie newMovie = new Movie(adult,
                 objectCollection,
@@ -127,7 +128,6 @@ public class MoviesUM {
                 }
             }
 
-
             if (newMovie.getCollection() != null) {
                 Collection colletionOfMovie = newMovie.getCollection();
                 Integer idCollection = colletionOfMovie.getId();
@@ -144,197 +144,6 @@ public class MoviesUM {
         }
     }
 
-    private int converterInt(String number) {
-        try {
-            return Integer.parseInt(number);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
-    private double converterDouble(String number) {
-        try {
-            return Double.parseDouble(number);
-        } catch (NumberFormatException e) {
-            return 0.0;
-        }
-    }
-
-    private Date converterTimestamp(String timestamp) {
-        try {
-            long seconds = Long.parseLong(timestamp);
-            return new Date(seconds * 1000);
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
-
-    private long converterLong(String number) {
-        try {
-            return Long.parseLong(number);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
-    private Genre[] converterStringGeneros(String stringGenres) {
-        if (stringGenres == null) {
-            return new Genre[0];
-        }
-        MyArrayList<Genre> generosList = new MyArrayList<>();
-        Pattern pattern = Pattern.compile("\\{'id'\\s*:\\s*(\\d+),\\s*'name'\\s*:\\s*'([^']*)'\\}");
-        Matcher matcher = pattern.matcher(stringGenres);
-
-        while (matcher.find()) {
-            try {
-                Integer id = Integer.parseInt(matcher.group(1));
-                String name = matcher.group(2);
-                Genre aux = new Genre(id, name);
-
-                if (genre.pertenece(aux)) {
-                    generosList.add(genre.get(id));
-                } else {
-                    generosList.add(aux);
-                    genre.add(aux);
-                }
-            } catch (Exception e) {
-            }
-        }
-        Genre[] result = new Genre[generosList.size()];
-        for (int i = 0; i < generosList.size(); i++) {
-            result[i] = generosList.get(i);
-        }
-        return result;
-    }
-
-    private Company[] converterStringCompany(String stringCompanies) {
-        if (stringCompanies == null) {
-            return new Company[0];
-        }
-        MyArrayList<Company> companyList = new MyArrayList<>();
-
-        Pattern pattern = Pattern.compile("\\{'name'\\s*:\\s*'([^']*)',\\s*'id'\\s*:\\s*(\\d+)\\}");
-        Matcher matcher = pattern.matcher(stringCompanies);
-
-        while (matcher.find()) {
-            try {
-                String name = matcher.group(1);
-                Integer id = Integer.parseInt(matcher.group(2));
-
-                if (companies.belongs(id)) {
-                    companyList.add(companies.search(id));
-                } else {
-                    Company c = new Company(id, name);
-                    companyList.add(c);
-                    companies.insert(id, c);
-                }
-            } catch (Exception e) {
-            }
-        }
-        Company[] result = new Company[companyList.size()];
-        for (int i = 0; i < companyList.size(); i++) {
-            result[i] = companyList.get(i);
-        }
-
-        return result;
-    }
-
-    private Country[] converterStringCountry(String stringCountries) {
-        if (stringCountries == null) {
-            return new Country[0];
-        }
-        MyArrayList<Country> countriesList = new MyArrayList<>();
-
-        Pattern pattern = Pattern.compile("\\{'iso_3166_1'\\s*:\\s*'([A-Z]{2})'\\s*,\\s*'name'\\s*:\\s*'([^']+)'\\}");
-        Matcher matcher = pattern.matcher(stringCountries);
-
-        while (matcher.find()) {
-            try {
-                String id = matcher.group(1);
-                String name = matcher.group(2);
-
-                if (countries.belongs(id)) {
-                    countriesList.add(countries.search(id));
-                } else {
-                    Country c = new Country(id, name);
-                    countriesList.add(c);
-                    countries.insert(id, c);
-                }
-            } catch (Exception e) {
-            }
-        }
-        Country[] result = new Country[countriesList.size()];
-        for (int i = 0; i < countriesList.size(); i++) {
-            result[i] = countriesList.get(i);
-        }
-
-        return result;
-    }
-
-    private Language[] converterStringLanguages(String stringLanguages) {
-        if (stringLanguages == null) {
-            return new Language[0];
-        }
-        MyArrayList<Language> languagesList = new MyArrayList<>();
-
-        Pattern pattern = Pattern.compile("\\{'iso_639_1'\\s*:\\s*'([a-z]{2})'\\s*,\\s*'name'\\s*:\\s*'([^']*)'\\}");
-        Matcher matcher = pattern.matcher(stringLanguages);
-
-        while (matcher.find()) {
-            try {
-                Integer id = Integer.parseInt(matcher.group(1));
-                String name = matcher.group(2);
-                Language aux = new Language(id, name);
-
-                if (languages.pertenece(aux)) {
-                    languagesList.add(languages.get(id));
-                } else {
-                    languagesList.add(aux);
-                    languages.add(aux);
-                }
-            } catch (Exception e) {
-            }
-        }
-        Language[] result = new Language[languagesList.size()];
-        for (int i = 0; i < languagesList.size(); i++) {
-            result[i] = languagesList.get(i);
-        }
-
-        return result;
-
-    }
-
-    private Collection converterStringCollection(String stringCollection) {
-        if (stringCollection == null) {
-            return null;
-        }
-
-        Pattern pattern = Pattern.compile("\\{'id':\\s*(\\d+),\\s*'name':\\s*'([^']*)',\\s*'poster_path':\\s*'([^']*)',\\s*'backdrop_path':\\s*(None|'[^']*')\\}");
-        Matcher matcher = pattern.matcher(stringCollection);
-
-        if (matcher.find()) {
-            try {
-                int id = Integer.parseInt(matcher.group(1));
-
-                if (collections.belongs(id)) {
-                    return collections.search(id);
-                } else {
-                    String name = matcher.group(2);
-                    String posterPath = matcher.group(3).equals("None") ? null : matcher.group(3).replace("'", "");
-                    String backdropPath = matcher.group(4).equals("None") ? null : matcher.group(4).replace("'", "");
-
-                    Collection newCollection = new Collection(id, name, posterPath, backdropPath);
-                    collections.insert(id, newCollection);
-                    return newCollection;
-                }
-            } catch (Exception e) {
-                return null;
-            }
-        }
-
-        return null;
-    }
-
     private void loadCredits() {
         try {
             FileReader filereader = new FileReader("src/main/resources/credits.csv");
@@ -345,7 +154,7 @@ public class MoviesUM {
             csvReader.readNext();
 
             while ((nextRecord = csvReader.readNext()) != null) {
-                int idmovie = converterInt(nextRecord[2]);
+                int idmovie = Converters.converterInt(nextRecord[2]);
                 Movie movieToAddCredits = movies.search(idmovie);
                 MyArrayList<Cast> cast = converterStringCast(nextRecord[0]);
                 MyArrayList<Crew> crew = converterStringCrew(nextRecord[1]);
@@ -368,13 +177,13 @@ public class MoviesUM {
         while (matcher.find()) {
             try {
 
-                Cast newCast = new Cast(converterInt(matcher.group(0)),
+                Cast newCast = new Cast(Converters.converterInt(matcher.group(0)),
                         matcher.group(1),
                         matcher.group(2),
-                        converterInt(matcher.group(3)),
-                        converterInt(matcher.group(4)),
+                        Converters.converterInt(matcher.group(3)),
+                        Converters.converterInt(matcher.group(4)),
                         matcher.group(5),
-                        converterInt(matcher.group(6)),
+                        Converters.converterInt(matcher.group(6)),
                         matcher.group(7));
                 castList.add(newCast);
             } catch (Exception e) {
@@ -395,9 +204,9 @@ public class MoviesUM {
         while (matcher.find()) {
             try {
 
-                Crew newCrew = new Crew(converterInt(matcher.group(0)),
+                Crew newCrew = new Crew(Converters.converterInt(matcher.group(0)),
                         matcher.group(1),
-                        converterInt(matcher.group(2)),
+                        Converters.converterInt(matcher.group(2)),
                         matcher.group(3),
                         matcher.group(4),
                         matcher.group(5),
@@ -438,10 +247,10 @@ public class MoviesUM {
         Date timestampDate;
 
         try {
-            userIDint = converterInt(userID);
-            movieIDint = converterInt(movieID);
-            scoreDouble = converterDouble(score);
-            timestampDate = converterTimestamp(date);
+            userIDint = Converters.converterInt(userID);
+            movieIDint = Converters.converterInt(movieID);
+            scoreDouble = Converters.converterDouble(score);
+            timestampDate = Converters.converterTimestamp(date);
 
         } catch (NumberFormatException e) {
             return;
