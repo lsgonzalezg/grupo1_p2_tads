@@ -16,6 +16,13 @@ public class MyHeapImpl<K extends Comparable<K>,T> implements MyHeap<K,T> {
         this.maxOrMin = maxOrMin;
     }
 
+    public NodoHeap<K, T> peek() {
+        if (heapTree.isEmpty()) {
+            throw new HeapIsEmpty("Heap vacío");
+        }
+        return heapTree.getRoot();
+    }
+
     @Override
     public void insert(K key,T data) {
         if (obtenerTamano() >= maximaCapacidad){
@@ -36,7 +43,7 @@ public class MyHeapImpl<K extends Comparable<K>,T> implements MyHeap<K,T> {
         return removeRoot();
     }
 
-    private NodoHeap<K,T> removeRoot(){
+    public NodoHeap<K,T> removeRoot(){
         if (heapTree.isEmpty()) {
             throw new HeapIsEmpty("El heap esta vacio");
         }
@@ -91,6 +98,5 @@ public class MyHeapImpl<K extends Comparable<K>,T> implements MyHeap<K,T> {
     public void imprimirArbol(){
         heapTree.toString();
     }
-
 
 }

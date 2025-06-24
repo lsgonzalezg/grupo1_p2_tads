@@ -1,6 +1,4 @@
 package um.edu.uy.interfaces;
-
-
 import um.edu.uy.exceptions.EmptyTreeException;
 import um.edu.uy.exceptions.NodeFull;
 import um.edu.uy.tads.MyLinkedList;

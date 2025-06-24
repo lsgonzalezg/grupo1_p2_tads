@@ -16,7 +16,14 @@ public class Main {
             System.out.println("3. Salir");
             System.out.print("Opción: ");
 
-            opcion = scanner.nextInt();
+            String input = scanner.nextLine();
+            //puse esto porque si ponias por ejemplo una barra se rompia el prog
+            try {
+                opcion = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Opción no válida. Intente de nuevo.");
+                continue;
+            }
 
             switch (opcion) {
                 case 1:
@@ -79,7 +86,7 @@ public class Main {
                 case 3:
                     System.out.println("----------------------------------------------");
                     long start3 = System.currentTimeMillis();
-                    moviesUM.top5RevenuesPerCompanies();
+                    moviesUM.top5RevenuesByCollections();
                     long finish3 = System.currentTimeMillis();
                     System.out.println("Tiempo de ejecucion:" + (finish3 - start3) + " milisegundos");
                     break;

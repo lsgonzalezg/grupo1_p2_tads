@@ -1,7 +1,10 @@
 package um.edu.uy.entities;
 import com.opencsv.CSVReader;
+import um.edu.uy.exceptions.ElementDosentExistException;
 import um.edu.uy.tads.*;
 import um.edu.uy.exceptions.ElementAlreadyExistException;
+
+import javax.print.attribute.standard.PresentationDirection;
 import java.io.FileReader;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -29,11 +32,8 @@ public class MoviesUM {
     public void loadData() {
         try {
             loadMovies();
-            System.out.println(movies.search(862).getTitle());
-            System.out.println(movies.search(55123).getTitle());
             loadCredits();
             loadRatings();
-            System.out.println(movies.search(862).getRatings().get(0).getScore());
         } catch (Exception e) {
         }
     }
@@ -49,6 +49,7 @@ public class MoviesUM {
             csvReader.readNext();
 
             while ((nextRecord = csvReader.readNext()) != null) {
+
                 addMovie(nextRecord[0],// adult
                         nextRecord[1],// belongs_to_collection
                         nextRecord[2],// budget
@@ -88,7 +89,7 @@ public class MoviesUM {
             return;
         }
 
-        int intrevenue = converterInt(revenue);
+        long longRevenue = converterLong(revenue);
         Genre[] arrayGenres = converterStringGeneros(genres);
         Company[] arrayCompany = converterStringCompany(productionCompanies);
         Country[] arrayCountry = converterStringCountry(productionCountry);
@@ -108,7 +109,7 @@ public class MoviesUM {
                 arrayCompany,
                 arrayCountry,
                 releaseDate,
-                intrevenue,
+                longRevenue,
                 runtime,
                 arrayLanguages,
                 status,
@@ -133,7 +134,11 @@ public class MoviesUM {
                 if (!collections.belongs(idCollection)) {
                     collections.insert(idCollection, colletionOfMovie);
                 }
-                colletionOfMovie.addMovie(newMovie);
+                try {
+                    colletionOfMovie = collections.search(idCollection);
+                    colletionOfMovie.addMovie(newMovie);
+                }catch (ElementDosentExistException e) {
+                }
             }
         } catch (ElementAlreadyExistException e) {
         }
@@ -161,6 +166,14 @@ public class MoviesUM {
             return new Date(seconds * 1000);
         } catch (NumberFormatException e) {
             return null;
+        }
+    }
+
+    private long converterLong(String number) {
+        try {
+            return Long.parseLong(number);
+        } catch (NumberFormatException e) {
+            return 0;
         }
     }
 
@@ -311,6 +324,7 @@ public class MoviesUM {
                     String backdropPath = matcher.group(4).equals("None") ? null : matcher.group(4).replace("'", "");
 
                     Collection newCollection = new Collection(id, name, posterPath, backdropPath);
+                    collections.insert(id, newCollection);
                     return newCollection;
                 }
             } catch (Exception e) {
@@ -445,99 +459,138 @@ public class MoviesUM {
     }
 
     public void top5MoviesRatingsByLanguage() {
-        MyLinkedList<Integer> keysPeliculas = movies.claves();
-        Movie[] english = new Movie[5];
+        MyHeapImpl<Integer, Movie> englishTop = new MyHeapImpl<>(5, false);
+        MyHeapImpl<Integer, Movie> spanishTop = new MyHeapImpl<>(5, false);
+        MyHeapImpl<Integer, Movie> italianTop = new MyHeapImpl<>(5, false);
+        MyHeapImpl<Integer, Movie> frenchTop = new MyHeapImpl<>(5, false);
+        MyHeapImpl<Integer, Movie> portugueseTop = new MyHeapImpl<>(5, false);
 
-        int cant_EnglishMovies = 0;
+        try {
+            for (NodeHash<Integer, Movie> node : movies) {
+                Movie movie = node.getValor();
 
-        for (int i = 0; i < keysPeliculas.obtenerLargo(); i++) {
-            try{
-                Movie movie = movies.search(keysPeliculas.get(i));
-                if(movie.getRatings()==null){
-                    continue;
-                }
-                String language = movie.getOriginalLanguage();
-                int cant_ratings = movie.getRatings().size();
-
-                if(language.equals("en")){
-                    if(cant_EnglishMovies < 5){
-                        insertSortedByRatings(english, movie, ++cant_EnglishMovies);
-                    }
-                    else {
-                        int worstRatingCount = english[4].getRatings().size();
-                        if (cant_ratings > worstRatingCount) {
-                            insertSortedByRatings(english, movie, 5);
+                if (movie.getRatingsCount() == 0) {
+                    continue;}
+                int numRatings = movie.getRatingsCount();
+                    if ("en".equals(movie.getOriginalLanguage())) {
+                        if (englishTop.obtenerTamano() < 5) {
+                            englishTop.insert(numRatings, movie);
+                        } else {
+                            int minRatings = englishTop.peek().getKey();
+                            if (numRatings > minRatings) {
+                                englishTop.remove();
+                                englishTop.insert(numRatings, movie);
+                            }
                         }
                     }
-                }
-
-            } catch (Exception e) {
+                    if ("es".equals(movie.getOriginalLanguage())) {
+                        if (spanishTop.obtenerTamano() < 5) {
+                            spanishTop.insert(numRatings, movie);
+                        } else {
+                            int minRatings = spanishTop.peek().getKey();
+                            if (numRatings > minRatings) {
+                                spanishTop.remove();
+                                spanishTop.insert(numRatings, movie);
+                            }
+                        }
+                    }
+                    if ("it".equals(movie.getOriginalLanguage())) {
+                        if (italianTop.obtenerTamano() < 5) {
+                            italianTop.insert(numRatings, movie);
+                        } else {
+                            int minRatings = italianTop.peek().getKey();
+                            if (numRatings > minRatings) {
+                                italianTop.remove();
+                                italianTop.insert(numRatings, movie);
+                            }
+                        }
+                    }
+                    if ("fr".equals(movie.getOriginalLanguage())) {
+                        if (frenchTop.obtenerTamano() < 5) {
+                            frenchTop.insert(numRatings, movie);
+                        } else {
+                            int minRatings = frenchTop.peek().getKey();
+                            if (numRatings > minRatings) {
+                                frenchTop.remove();
+                                frenchTop.insert(numRatings, movie);
+                            }
+                        }
+                    }
+                    if ("pt".equals(movie.getOriginalLanguage())) {
+                        if (portugueseTop.obtenerTamano() < 5) {
+                            portugueseTop.insert(numRatings, movie);
+                        } else {
+                            int minRatings = portugueseTop.peek().getKey();
+                            if (numRatings > minRatings) {
+                                portugueseTop.remove();
+                                portugueseTop.insert(numRatings, movie);
+                            }
+                        }
+                    }
             }
+        } catch (Exception e) {
         }
-        System.out.println("Top 5 películas en inglés por cantidad de ratings:");
-        for (int i = 0; i < english.length; i++) {
-            if (english[i] != null) {
-                System.out.println(english[i].getId() + ", " + english[i].getTitle() + ", " + english[i].getRatings().size() + ", " + english[i].getOriginalLanguage());
-            }
+        System.out.println("Top de las peliculas que más calificación por idioma:");
+        printTopByLanguage(englishTop);
+        printTopByLanguage(spanishTop);
+        printTopByLanguage(italianTop);
+        printTopByLanguage(frenchTop);
+        printTopByLanguage(portugueseTop);
+    }
 
+    private void printTopByLanguage(MyHeapImpl<Integer, Movie> heap) {
+        //Invierto el resultado porque esta ordenado al reves.
+        MyArrayList<Movie> result = new MyArrayList<>();
+        while (heap.obtenerTamano() > 0) {
+            try {
+                result.add(heap.remove().getData());
+            } catch (Exception e) {}
+        }
+
+        System.out.println("");
+        for (int i = result.size() - 1; i >= 0; i--) {
+            Movie movie = result.get(i);
+            System.out.println(movie.getId() + ", " + movie.getTitle() + ", " + movie.getRatingsCount() + ", " + movie.getOriginalLanguage());
         }
     }
 
-    private void insertSortedByRatings(Movie[] array, Movie newMovie, int cant_Top) {
-        int newMovieRating = newMovie.getRatings().size();
-        int i = cant_Top - 1;
-
-        while (i > 0 && array[i - 1] != null && array[i -1].getRatings().size() < newMovieRating) {
-            array[i] = array[i - 1];
-            i--;
-        }
-        array[i] = newMovie;
-    }
-
-    public void top5RevenuesPerCompanies() {
+    public void top5RevenuesByCollections() {
         try{
-            Company[] topCompanies = new Company[5];
-            int cant_Companies = 0;
-            MyLinkedList<Integer> clavesCompanies = companies.claves();
+            Collection[] topCollections = new Collection[5];
+            int cant_Collections = 0;
 
-            for (int i = 0; i < clavesCompanies.obtenerLargo(); i++) {
-                Company company = companies.search(clavesCompanies.get(i));
-                long revenueTotal = company.calculateTotalRevenue();
+            for (NodeHash<Integer, Collection> node : collections) {
+                Collection collection = node.getValor();
+                long revenueTotal = collection.calculateTotalRevenue();
 
-                if(cant_Companies < 5){
-                    insertSortedByRevenue(topCompanies,company,++cant_Companies);
+                if(cant_Collections < 5){
+                    insertSortedByRevenue(topCollections, collection, ++cant_Collections);
                 }else{
-                    long worstRevenue = topCompanies[4].calculateTotalRevenue();
+                    long worstRevenue = topCollections[4].calculateTotalRevenue();
                     if(revenueTotal > worstRevenue){
-                        insertSortedByRevenue(topCompanies, company, 5);
+                        insertSortedByRevenue(topCollections, collection, 5);
                     }
                 }
             }
             System.out.println("Top 5 de las colecciones que mas generaron:");
-            for (int i = 0; i < topCompanies.length; i++) {
-                if (topCompanies[i] != null) {
-                    System.out.println(topCompanies[i].getId() + ", " + topCompanies[i].getName() + ", " + topCompanies[i].getMovies().obtenerLargo() + ", " + topCompanies[i].calculateTotalRevenue());
+            for (int i = 0; i < topCollections.length; i++) {
+                if (topCollections[i] != null) {
+                    System.out.println(topCollections[i].getId() + ", " + topCollections[i].getName() + ", " + topCollections[i].getMovies().obtenerLargo() + ", " + topCollections[i].calculateTotalRevenue());
                 }
-
             }
-
         } catch (Exception e) {
         }
     }
 
-    private void insertSortedByRevenue(Company[] array, Company newCompany, int cant_Top) {
-        long newCompanyRevenue = newCompany.calculateTotalRevenue();
+    private void insertSortedByRevenue(Collection[] array, Collection newCollection, int cant_Top) {
+        long newCompanyRevenue = newCollection.calculateTotalRevenue();
         int i = cant_Top - 1;
 
         while (i > 0 && array[i - 1] != null && array[i -1].calculateTotalRevenue() < newCompanyRevenue) {
             array[i] = array[i - 1];
             i--;
         }
-        array[i] = newCompany;
-    }
-
-    public void top10DirectorsByAverageRating() {
-        MyLinkedList<Integer> keysPeliculas = movies.claves();
+        array[i] = newCollection;
     }
 
     public void top10MoviesByUserRating() {
@@ -559,7 +612,6 @@ public class MoviesUM {
             }
         }
     }
-
 
     private double averageRating(Movie movie){
         double avg = 0;

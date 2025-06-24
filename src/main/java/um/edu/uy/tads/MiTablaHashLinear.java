@@ -171,16 +171,4 @@ public class MiTablaHashLinear<K extends Comparable<K>, V> implements MyHashTabl
             return tabla[indiceActual++];
         }
     }
-
-    public MyLinkedList<K> claves() {
-        MyLinkedList<K> listaClaves = new MyLinkedList<>();
-
-        for (int i = 0; i < capacidad; i++) {
-            if(tabla[i] !=null){
-                listaClaves.add(tabla[i].getClave());
-            }
-
-        }
-        return listaClaves;
-    }
 }

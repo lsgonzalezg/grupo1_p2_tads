@@ -25,6 +25,7 @@ public class Movie {
     private MyArrayList<Ratings> ratings;
     private MyArrayList<Cast> cast;
     private MyArrayList<Crew> crew;
+    private int ratingsCount = 0;
 
     public Movie(String adult, Collection collection, String budget, Genre[] genres, String homepage, int id, String imdb_id, String originalLanguage, String originalTitle, String overview, Company[] productionCompanies, Country[] productionCountry, String releaseDate, long revenue, String runtime, Language[] spokenLanguages, String status, String tagline, String title) {
         this.adult = adult;
@@ -63,6 +64,11 @@ public class Movie {
 
     public void addRating(Ratings rating) {
         ratings.add(rating);
+        ratingsCount++;
+    }
+
+    public int getRatingsCount() {
+        return ratingsCount;
     }
 
     public void setCrew(MyArrayList<Crew> crew) {
@@ -89,13 +95,4 @@ public class Movie {
         return revenue;
     }
 
-    public double RatingMedio(){
-        if (ratings == null || ratings.size() == 0)
-            return 0.0;
-        double sum = 0.0;
-        for (int i = 0; i < ratings.size(); i++) {
-            sum += ratings.get(i).getScore();
-        }
-        return sum / ratings.size();
-    }
 }
