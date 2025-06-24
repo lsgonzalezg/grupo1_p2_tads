@@ -1,20 +1,27 @@
 package um.edu.uy.tads;
 
+public class NodeHash<K extends Comparable<K>, V> {
+    private K clave;
+    private V valor;
 
-public class NodeHash<K extends Comparable,T> {
-    private K Clave;
-    private T Valor;
-
-    public NodeHash(K clave, T valor) {
-        this.Clave = clave;
-        this.Valor = valor;
+    public NodeHash(K clave, V valor) {
+        this.clave = clave;
+        this.valor = valor;
     }
 
     public K getClave() {
-        return Clave;
+        return clave;
     }
 
-    public T getValor() {
-        return Valor;
+    public void setClave(K clave) {
+        this.clave = clave;
+    }
+
+    public V getValor() {
+        return valor;
+    }
+
+    public void setValor(V valor) {
+        this.valor = valor;
     }
 }

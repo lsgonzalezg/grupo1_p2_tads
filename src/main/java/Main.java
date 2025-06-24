@@ -71,6 +71,10 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("----------------------------------------------");
+                    long startCase2 = System.currentTimeMillis();
+                    moviesUM.top10MoviesByUserRating();
+                    long finishCase2 = System.currentTimeMillis();
+                    System.out.println("Tiempo de ejecucion:" + (finishCase2 - startCase2) + " milisegundos");
                     break;
                 case 3:
                     System.out.println("----------------------------------------------");
