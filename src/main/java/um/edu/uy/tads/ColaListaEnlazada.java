@@ -1,6 +1,7 @@
 package um.edu.uy.tads;
 
 import um.edu.uy.exceptions.*;
+import um.edu.uy.interfaces.MyCola;
 
 public class ColaListaEnlazada<T> implements MyCola<T> {
 
@@ -32,5 +33,12 @@ public class ColaListaEnlazada<T> implements MyCola<T> {
             return true;
         }
         return false;
+    }
+
+    public static interface MyBinariTreeCompleto<K,T>{
+        void insert(K key, T data);
+        void remove(K key);
+        String toString();
+
     }
 }

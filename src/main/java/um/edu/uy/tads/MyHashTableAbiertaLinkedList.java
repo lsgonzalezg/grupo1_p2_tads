@@ -1,7 +1,8 @@
 package um.edu.uy.tads;
 import um.edu.uy.exceptions.ElementAlreadyExistException;
+import um.edu.uy.interfaces.MyHashTable;
 
-public class MyHashTableAbiertaLinkedList<K extends Comparable,T> implements MyHashTable<K,T>{
+public class MyHashTableAbiertaLinkedList<K extends Comparable,T> implements MyHashTable<K,T> {
     private MyLinkedList<NodeHash<K,T>>[] hashTable;
     private int size;
 

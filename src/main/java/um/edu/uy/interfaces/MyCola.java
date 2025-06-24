@@ -1,4 +1,4 @@
-package um.edu.uy.tads;
+package um.edu.uy.interfaces;
 
 public interface MyCola<T> {
     void enqueue (T elemto);

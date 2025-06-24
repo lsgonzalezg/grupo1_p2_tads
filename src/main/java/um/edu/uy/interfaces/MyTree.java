@@ -1,8 +1,10 @@
-package um.edu.uy.tads;
+package um.edu.uy.interfaces;
 
 
 import um.edu.uy.exceptions.EmptyTreeException;
 import um.edu.uy.exceptions.NodeFull;
+import um.edu.uy.tads.MyLinkedList;
+import um.edu.uy.tads.NodeBinary;
 
 public interface MyTree <K,T>{
     T find(K key);

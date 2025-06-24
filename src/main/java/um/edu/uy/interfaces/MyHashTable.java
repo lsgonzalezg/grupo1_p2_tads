@@ -1,4 +1,4 @@
-package um.edu.uy.tads;
+package um.edu.uy.interfaces;
 import um.edu.uy.exceptions.ElementAlreadyExistException;
 
 public interface MyHashTable<K extends Comparable,T>{

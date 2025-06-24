@@ -1,6 +1,8 @@
 package um.edu.uy.tads;
 
 
+import um.edu.uy.interfaces.MyList;
+
 public class MyLinkedList<T> implements MyList<T> {
 
     private Node<T> head;
