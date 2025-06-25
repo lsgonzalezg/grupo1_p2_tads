@@ -164,51 +164,62 @@ public class MoviesUM {
     }
 
     private MyArrayList<Cast> converterStringCast(String stringCast) {
-        if (stringCast == null) {
+        if (stringCast == null || stringCast.length() < 3) {
             return new MyArrayList<>();
         }
 
         MyArrayList<Cast> castList = new MyArrayList<>();
-        Pattern pattern = Pattern.compile("\\{'cast_id':\\s*\\d+,\\s*'character':\\s*'[^']+',\\s*'credit_id':\\s*'[^']+',\\s*'gender':\\s*\\d+,\\s*'id':\\s*\\d+,\\s*'name':\\s*'[^']+',\\s*'order':\\s*\\d+,\\s*'profile_path':\\s*(?:'[^']+'|None)\\}");
+        Pattern pattern = Pattern.compile("\\{'cast_id':\\s*(\\d+),\\s*'character':\\s*'(.*?)',\\s*'credit_id':\\s*'(.*?)',\\s*'gender':\\s*(\\d+),\\s*'id':\\s*(\\d+),\\s*'name':\\s*'(.*?)',\\s*'order':\\s*(\\d+),\\s*'profile_path':\\s*(.*?)\\}");
         Matcher matcher = pattern.matcher(stringCast);
 
         while (matcher.find()) {
             try {
+                Integer castId = Converters.converterInt(matcher.group(1));
+                String character = matcher.group(2).replace("'", "''"); // Escapar comillas simples si es necesario para DB, etc.
+                String creditId = matcher.group(3);
+                Integer gender = Converters.converterInt(matcher.group(4));
+                Integer id = Converters.converterInt(matcher.group(5));
+                String name = matcher.group(6).replace("'", "''");
+                Integer order = Converters.converterInt(matcher.group(7));
+                String profilePath = matcher.group(8).trim(); // Limpiar espacios
+                if (profilePath.equals("None") || profilePath.equals("''")) {
+                    profilePath = null;
+                } else {
+                    profilePath = profilePath.replace("'", ""); // Quitar comillas
+                }
 
-                Cast newCast = new Cast(Converters.converterInt(matcher.group(0)),
-                        matcher.group(1),
-                        matcher.group(2),
-                        Converters.converterInt(matcher.group(3)),
-                        Converters.converterInt(matcher.group(4)),
-                        matcher.group(5),
-                        Converters.converterInt(matcher.group(6)),
-                        matcher.group(7));
+                Cast newCast = new Cast(castId, character, creditId, gender, id, name, order, profilePath);
                 castList.add(newCast);
             } catch (Exception e) {
             }
         }
         return castList;
     }
-
     private MyArrayList<Crew> converterStringCrew(String stringCrew) {
-        if (stringCrew == null) {
+        if (stringCrew == null || stringCrew.length() < 3) {
             return new MyArrayList<>();
         }
 
         MyArrayList<Crew> crewList = new MyArrayList<>();
-        Pattern pattern = Pattern.compile("\\{'credit_id':\\s*'[^']+',\\s*'department':\\s*'[^']+',\\s*'gender':\\s*\\d+,\\s*'id':\\s*\\d+,\\s*'job':\\s*'[^']+',\\s*'name':\\s*'[^']+',\\s*'profile_path':\\s*(?:'[^']+'|None)\\}(?:,\\s*\\{'credit_id':\\s*'[^']+',\\s*'department':\\s*'[^']+',\\s*'gender':\\s*\\d+,\\s*'id':\\s*\\d+,\\s*'job':\\s*'[^']+',\\s*'name':\\s*'[^']+',\\s*'profile_path':\\s*(?:'[^']+'|None)\\})");
+        Pattern pattern = Pattern.compile("\\{'credit_id':\\s*'(.*?)',\\s*'department':\\s*'(.*?)',\\s*'gender':\\s*(\\d+),\\s*'id':\\s*(\\d+),\\s*'job':\\s*'(.*?)',\\s*'name':\\s*'(.*?)',\\s*'profile_path':\\s*(.*?)\\}");
         Matcher matcher = pattern.matcher(stringCrew);
 
         while (matcher.find()) {
             try {
+                Integer creditId = Converters.converterInt(matcher.group(1)); // Se mantiene como String
+                String department = matcher.group(2).replace("'", "''");
+                Integer gender = Converters.converterInt(matcher.group(3));
+                String id = matcher.group(4); // Se convierte a Integer
+                String job = matcher.group(5).replace("'", "''");
+                String name = matcher.group(6).replace("'", "''");
+                String profilePath = matcher.group(7).trim();
+                if (profilePath.equals("None") || profilePath.equals("''")) {
+                    profilePath = null;
+                } else {
+                    profilePath = profilePath.replace("'", "");
+                }
 
-                Crew newCrew = new Crew(Converters.converterInt(matcher.group(0)),
-                        matcher.group(1),
-                        Converters.converterInt(matcher.group(2)),
-                        matcher.group(3),
-                        matcher.group(4),
-                        matcher.group(5),
-                        matcher.group(6));
+                Crew newCrew = new Crew(creditId, department, gender, id, job, name, profilePath);
                 crewList.add(newCrew);
             } catch (Exception e) {
             }
