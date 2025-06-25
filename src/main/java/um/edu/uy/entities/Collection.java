@@ -41,4 +41,15 @@ public class Collection {
         return name;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < movies.obtenerLargo(); i++) {
+            sb.append(movies.get(i).getId());
+            if (i < movies.obtenerLargo() - 1) {
+                sb.append(", ");
+            }
+        }
+        return sb.toString();
+    }
 }

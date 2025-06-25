@@ -17,7 +17,6 @@ public class MoviesUM {
     private MyHashTableLineal<String, Country> countries;
     private MyArrayList<Language> languages;
     private MyHashTableLineal<Integer, Collection> collections;
-    private MyHashTableLineal<Integer, User> users;
 
     public MoviesUM() {
         this.movies = new MyHashTableLineal<>(13);
@@ -27,7 +26,6 @@ public class MoviesUM {
         this.countries = new MyHashTableLineal<>(13);
         this.languages = new MyArrayList<>();
         this.collections = new MyHashTableLineal<>(13);
-        this.users = new MyHashTableLineal<>(13);
     }
 
     public void loadData() {
@@ -384,7 +382,7 @@ public class MoviesUM {
             System.out.println("Top 5 de las colecciones que mas generaron:");
             for (int i = 0; i < topCollections.length; i++) {
                 if (topCollections[i] != null) {
-                    System.out.println(topCollections[i].getId() + ", " + topCollections[i].getName() + ", " + topCollections[i].getMovies().obtenerLargo() + ", " + topCollections[i].calculateTotalRevenue());
+                    System.out.println(topCollections[i].getId() + ", " + topCollections[i].getName() + ", " + topCollections[i].getMovies().obtenerLargo() + ", [" + topCollections[i].toString() + "] ," + topCollections[i].calculateTotalRevenue());
                 }
             }
         } catch (Exception e) {

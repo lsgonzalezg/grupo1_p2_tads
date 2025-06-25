@@ -1,5 +1,4 @@
 package um.edu.uy.entities;
-
 import java.util.Date;
 
 public class Ratings {
@@ -18,9 +17,4 @@ public class Ratings {
     public double getScore(){
         return score;
     }
-
-    public int getMovieID() {
-        return movieID;
-    }
-
 }
