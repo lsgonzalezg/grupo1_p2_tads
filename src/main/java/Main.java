@@ -98,6 +98,10 @@ public class Main {
                     break;
                 case 6:
                     System.out.println("----------------------------------------------");
+                    long start6 = System.currentTimeMillis();
+                    moviesUM.queryUsersWithMostRatingsByGenre();
+                    long finish6 = System.currentTimeMillis();
+                    System.out.println("Tiempo de ejecucion:" + (finish6 - start6) + " milisegundos");
                     break;
                 case 7:
                     System.out.println("----------------------------------------------");

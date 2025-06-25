@@ -135,7 +135,7 @@ public class MoviesUM {
                 try {
                     colletionOfMovie = collections.search(idCollection);
                     colletionOfMovie.addMovie(newMovie);
-                }catch (ElementDosentExistException e) {
+                } catch (ElementDosentExistException e) {
                 }
             }
         } catch (ElementAlreadyExistException e) {
@@ -277,71 +277,72 @@ public class MoviesUM {
                 Movie movie = node.getValor();
 
                 if (movie.getRatingsCount() == 0) {
-                    continue;}
+                    continue;
+                }
                 int numRatings = movie.getRatingsCount();
-                    if ("en".equals(movie.getOriginalLanguage())) {
-                        if (englishTop.obtenerTamano() < 5) {
+                if ("en".equals(movie.getOriginalLanguage())) {
+                    if (englishTop.obtenerTamano() < 5) {
+                        englishTop.insert(numRatings, movie);
+                    } else {
+                        int minRatings = englishTop.peek().getKey();
+                        if (numRatings > minRatings) {
+                            englishTop.remove();
                             englishTop.insert(numRatings, movie);
-                        } else {
-                            int minRatings = englishTop.peek().getKey();
-                            if (numRatings > minRatings) {
-                                englishTop.remove();
-                                englishTop.insert(numRatings, movie);
-                            }
                         }
                     }
-                    if ("es".equals(movie.getOriginalLanguage())) {
-                        if (spanishTop.obtenerTamano() < 5) {
+                }
+                if ("es".equals(movie.getOriginalLanguage())) {
+                    if (spanishTop.obtenerTamano() < 5) {
+                        spanishTop.insert(numRatings, movie);
+                    } else {
+                        int minRatings = spanishTop.peek().getKey();
+                        if (numRatings > minRatings) {
+                            spanishTop.remove();
                             spanishTop.insert(numRatings, movie);
-                        } else {
-                            int minRatings = spanishTop.peek().getKey();
-                            if (numRatings > minRatings) {
-                                spanishTop.remove();
-                                spanishTop.insert(numRatings, movie);
-                            }
                         }
                     }
-                    if ("it".equals(movie.getOriginalLanguage())) {
-                        if (italianTop.obtenerTamano() < 5) {
+                }
+                if ("it".equals(movie.getOriginalLanguage())) {
+                    if (italianTop.obtenerTamano() < 5) {
+                        italianTop.insert(numRatings, movie);
+                    } else {
+                        int minRatings = italianTop.peek().getKey();
+                        if (numRatings > minRatings) {
+                            italianTop.remove();
                             italianTop.insert(numRatings, movie);
-                        } else {
-                            int minRatings = italianTop.peek().getKey();
-                            if (numRatings > minRatings) {
-                                italianTop.remove();
-                                italianTop.insert(numRatings, movie);
-                            }
                         }
                     }
-                    if ("fr".equals(movie.getOriginalLanguage())) {
-                        if (frenchTop.obtenerTamano() < 5) {
+                }
+                if ("fr".equals(movie.getOriginalLanguage())) {
+                    if (frenchTop.obtenerTamano() < 5) {
+                        frenchTop.insert(numRatings, movie);
+                    } else {
+                        int minRatings = frenchTop.peek().getKey();
+                        if (numRatings > minRatings) {
+                            frenchTop.remove();
                             frenchTop.insert(numRatings, movie);
-                        } else {
-                            int minRatings = frenchTop.peek().getKey();
-                            if (numRatings > minRatings) {
-                                frenchTop.remove();
-                                frenchTop.insert(numRatings, movie);
-                            }
                         }
                     }
-                    if ("pt".equals(movie.getOriginalLanguage())) {
-                        if (portugueseTop.obtenerTamano() < 5) {
+                }
+                if ("pt".equals(movie.getOriginalLanguage())) {
+                    if (portugueseTop.obtenerTamano() < 5) {
+                        portugueseTop.insert(numRatings, movie);
+                    } else {
+                        int minRatings = portugueseTop.peek().getKey();
+                        if (numRatings > minRatings) {
+                            portugueseTop.remove();
                             portugueseTop.insert(numRatings, movie);
-                        } else {
-                            int minRatings = portugueseTop.peek().getKey();
-                            if (numRatings > minRatings) {
-                                portugueseTop.remove();
-                                portugueseTop.insert(numRatings, movie);
-                            }
                         }
                     }
+                }
             }
         } catch (Exception e) {
         }
         System.out.println("Top de las peliculas que más calificación por idioma:");
         printTopByLanguage(englishTop);
-        printTopByLanguage(spanishTop);
-        printTopByLanguage(italianTop);
         printTopByLanguage(frenchTop);
+        printTopByLanguage(italianTop);
+        printTopByLanguage(spanishTop);
         printTopByLanguage(portugueseTop);
     }
 
@@ -351,7 +352,8 @@ public class MoviesUM {
         while (heap.obtenerTamano() > 0) {
             try {
                 result.add(heap.remove().getData());
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
 
         System.out.println("");
@@ -362,7 +364,7 @@ public class MoviesUM {
     }
 
     public void top5RevenuesByCollections() {
-        try{
+        try {
             Collection[] topCollections = new Collection[5];
             int cant_Collections = 0;
 
@@ -370,11 +372,11 @@ public class MoviesUM {
                 Collection collection = node.getValor();
                 long revenueTotal = collection.calculateTotalRevenue();
 
-                if(cant_Collections < 5){
+                if (cant_Collections < 5) {
                     insertSortedByRevenue(topCollections, collection, ++cant_Collections);
-                }else{
+                } else {
                     long worstRevenue = topCollections[4].calculateTotalRevenue();
-                    if(revenueTotal > worstRevenue){
+                    if (revenueTotal > worstRevenue) {
                         insertSortedByRevenue(topCollections, collection, 5);
                     }
                 }
@@ -393,7 +395,7 @@ public class MoviesUM {
         long newCompanyRevenue = newCollection.calculateTotalRevenue();
         int i = cant_Top - 1;
 
-        while (i > 0 && array[i - 1] != null && array[i -1].calculateTotalRevenue() < newCompanyRevenue) {
+        while (i > 0 && array[i - 1] != null && array[i - 1].calculateTotalRevenue() < newCompanyRevenue) {
             array[i] = array[i - 1];
             i--;
         }
@@ -402,35 +404,38 @@ public class MoviesUM {
 
     public void top10MoviesByUserRating() {
         MyHeapImpl<Double, Integer> moviesAndTheirRating = new MyHeapImpl<Double, Integer>(movies.tamanio(), true);
-        for (NodeHash<Integer, Movie> movie:movies) {
+        for (NodeHash<Integer, Movie> movie : movies) {
             Double average = averageRating(movie.getValor());
-            if (average >0){
-                moviesAndTheirRating.insert(average,movie.getClave());
+            if (average > 0) {
+                moviesAndTheirRating.insert(average, movie.getClave());
             }
         }
         System.out.println("Top 10 de las películas con mejor calificación promedio:");
-        for (int top10 = 0; top10<10;top10++){
-            try{
-                NodoHeap<Double,Integer> top = moviesAndTheirRating.remove();
+        for (int top10 = 0; top10 < 10; top10++) {
+            try {
+                NodoHeap<Double, Integer> top = moviesAndTheirRating.remove();
                 Movie movie = movies.search(top.getData());
-                System.out.println(movie.getId()+", " + movie.getTitle()+", " + top.getKey());
-            }catch (Exception e){
+                System.out.println(movie.getId() + ", " + movie.getTitle() + ", " + top.getKey());
+            } catch (Exception e) {
 
             }
         }
     }
 
-    private double averageRating(Movie movie){
+    private double averageRating(Movie movie) {
         double avg = 0;
         MyArrayList<Ratings> ratings = movie.getRatings();
         int size = movie.getRatings().size();
-        if(size<100){
+        if (size < 100) {
             return 0;
         }
-        for (int ratingPlace = 0; ratingPlace<size;ratingPlace++){
-            avg+=ratings.get(ratingPlace).getScore();
+        for (int ratingPlace = 0; ratingPlace < size; ratingPlace++) {
+            avg += ratings.get(ratingPlace).getScore();
         }
-        return (avg/size);
+        return (avg / size);
+    }
+
+    public void queryUsersWithMostRatingsByGenre() {
     }
 }
 
