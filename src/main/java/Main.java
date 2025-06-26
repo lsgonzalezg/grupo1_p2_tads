@@ -1,5 +1,6 @@
 import um.edu.uy.entities.MoviesUM;
 import java.util.Scanner;
+import um.edu.uy.querys.Query1Top5MoviesRatingsByLanguage;
 
 public class Main {
     public static void main(String[] args) {
@@ -72,34 +73,42 @@ public class Main {
                 case 1:
                     System.out.println("----------------------------------------------");
                     long start = System.currentTimeMillis();
-                    moviesUM.top5MoviesRatingsByLanguage();
+                    moviesUM.ejecutarConsulta1();
                     long finish = System.currentTimeMillis();
                     System.out.println("Tiempo de ejecucion:" + (finish - start) + " milisegundos");
                     break;
                 case 2:
                     System.out.println("----------------------------------------------");
                     long startCase2 = System.currentTimeMillis();
-                    moviesUM.top10MoviesByUserRating();
+                    moviesUM.ejecutarConsulta2();
                     long finishCase2 = System.currentTimeMillis();
                     System.out.println("Tiempo de ejecucion:" + (finishCase2 - startCase2) + " milisegundos");
                     break;
                 case 3:
                     System.out.println("----------------------------------------------");
                     long start3 = System.currentTimeMillis();
-                    moviesUM.top5RevenuesByCollections();
+                    moviesUM.ejecutarConsulta3();
                     long finish3 = System.currentTimeMillis();
                     System.out.println("Tiempo de ejecucion:" + (finish3 - start3) + " milisegundos");
                     break;
                 case 4:
                     System.out.println("----------------------------------------------");
+                    long start4 = System.currentTimeMillis();
+                    moviesUM.ejecutarConsulta4();
+                    long finish4 = System.currentTimeMillis();
+                    System.out.println("Tiempo de ejecucion:" + (finish4 - start4) + " milisegundos");
                     break;
                 case 5:
                     System.out.println("----------------------------------------------");
+                    long start5 = System.currentTimeMillis();
+                    moviesUM.ejecutarConsulta5();
+                    long finish5 = System.currentTimeMillis();
+                    System.out.println("Tiempo de ejecucion:" + (finish5 - start5) + " milisegundos");
                     break;
                 case 6:
                     System.out.println("----------------------------------------------");
                     long start6 = System.currentTimeMillis();
-                    moviesUM.queryUsersWithMostRatingsByGenre();
+                    moviesUM.ejecutarConsulta6();
                     long finish6 = System.currentTimeMillis();
                     System.out.println("Tiempo de ejecucion:" + (finish6 - start6) + " milisegundos");
                     break;

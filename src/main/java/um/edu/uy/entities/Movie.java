@@ -94,4 +94,12 @@ public class Movie {
     public long getRevenue() {
         return revenue;
     }
+
+    public Genre[] getGenres() {
+        return genres;
+    }
+
+    public MyArrayList<Cast> getCast() {
+        return cast;
+    }
 }

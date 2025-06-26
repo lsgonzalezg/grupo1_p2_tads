@@ -1,5 +1,4 @@
 package um.edu.uy.entities;
-
 import um.edu.uy.tads.MyLinkedList;
 
 public class Company {

@@ -1,5 +1,4 @@
 package um.edu.uy.entities;
-import um.edu.uy.tads.MyLinkedList;
 
 public class Cast {
     private Integer cast_id;
@@ -10,7 +9,6 @@ public class Cast {
     private String name;
     private Integer order;
     private String profile_path;
-    private MyLinkedList<Ratings> ratings;
 
     public Cast(Integer cast_id, String character, String credit_Id, Integer gender, Integer id, String name, Integer order, String profile_path) {
         this.cast_id = cast_id;
@@ -21,5 +19,9 @@ public class Cast {
         this.name = name;
         this.order = order;
         this.profile_path = profile_path;
+    }
+
+    public String getName() {
+        return name;
     }
 }

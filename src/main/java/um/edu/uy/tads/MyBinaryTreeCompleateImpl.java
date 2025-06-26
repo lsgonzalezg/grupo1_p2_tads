@@ -1,9 +1,9 @@
 package um.edu.uy.tads;
 import um.edu.uy.exceptions.EmptyTreeException;
-import um.edu.uy.interfaces.MyBinariTreeCompleto;
+import um.edu.uy.interfaces.MyBinaryTreeCompleto;
 
 
-public class MyBinaryTreeCompleateImpl<K extends Comparable<K>,T> implements MyBinariTreeCompleto<K,T> {
+public class MyBinaryTreeCompleateImpl<K extends Comparable<K>,T> implements MyBinaryTreeCompleto<K,T> {
     private NodoHeap<K,T> root;
     public MyBinaryTreeCompleateImpl() {
         this.root = null;

@@ -40,34 +40,30 @@ public class Converters {
         }
     }
 
-    public static Genre[] converterStringGeneros(String stringGenres, MyArrayList<Genre> genres) {
-        if (stringGenres == null) {
-            return new Genre[0];
-        }
-        MyArrayList<Genre> genresList = new MyArrayList<>();
-        Pattern pattern = Pattern.compile("\\{'id'\\s*:\\s*(\\d+),\\s*'name'\\s*:\\s*'([^']*)'\\}");
-        Matcher matcher = pattern.matcher(stringGenres);
+    public static Genre[] converterStringGeneros(String genreStr, MyHashTableLineal<Integer, Genre> tablaGenre) {
+        if (genreStr == null || genreStr.length() <= 2) return null;
+
+        Pattern pattern = Pattern.compile("\\{'id':\\s*(\\d+),\\s*'name':\\s*'([^']+)'\\}");
+        Matcher matcher = pattern.matcher(genreStr);
+        MyArrayList<Genre> genreOfMovie = new MyArrayList<>();
 
         while (matcher.find()) {
+            int id = Integer.parseInt(matcher.group(1));
+            String name = matcher.group(2);
             try {
-                Integer id = Integer.parseInt(matcher.group(1));
-                String name = matcher.group(2);
-                Genre aux = new Genre(id, name);
-
-                if (genres.pertenece(aux)) {
-                    genresList.add(genres.get(id));
-                } else {
-                    genresList.add(aux);
-                    genres.add(aux);
+                if (!tablaGenre.belongs(id)) {
+                    tablaGenre.insert(id, new Genre(id, name));
                 }
+                genreOfMovie.add(tablaGenre.search(id));
             } catch (Exception e) {
             }
         }
-        Genre[] result = new Genre[genresList.size()];
-        for (int i = 0; i < genresList.size(); i++) {
-            result[i] = genresList.get(i);
+
+        Genre[] resultado = new Genre[genreOfMovie.size()];
+        for (int i = 0; i < genreOfMovie.size(); i++) {
+            resultado[i] = genreOfMovie.get(i);
         }
-        return result;
+        return resultado;
     }
 
     public static Company[] converterStringCompany(String stringCompanies, MyHashTableLineal<Integer, Company> companies) {
@@ -198,4 +194,68 @@ public class Converters {
         return null;
     }
 
+    public static MyArrayList<Cast> converterStringCast(String stringCast) {
+        if (stringCast == null || stringCast.length() < 3) {
+            return new MyArrayList<>();
+        }
+
+        MyArrayList<Cast> castList = new MyArrayList<>();
+        Pattern pattern = Pattern.compile("\\{'cast_id':\\s*(\\d+),\\s*'character':\\s*'(.*?)',\\s*'credit_id':\\s*'(.*?)',\\s*'gender':\\s*(\\d+),\\s*'id':\\s*(\\d+),\\s*'name':\\s*'(.*?)',\\s*'order':\\s*(\\d+),\\s*'profile_path':\\s*(.*?)\\}");
+        Matcher matcher = pattern.matcher(stringCast);
+
+        while (matcher.find()) {
+            try {
+                Integer castId = Converters.converterInt(matcher.group(1));
+                String character = matcher.group(2).replace("'", "''"); // Escapar comillas simples si es necesario para DB, etc.
+                String creditId = matcher.group(3);
+                Integer gender = Converters.converterInt(matcher.group(4));
+                Integer id = Converters.converterInt(matcher.group(5));
+                String name = matcher.group(6).replace("'", "''");
+                Integer order = Converters.converterInt(matcher.group(7));
+                String profilePath = matcher.group(8).trim(); // Limpiar espacios
+                if (profilePath.equals("None") || profilePath.equals("''")) {
+                    profilePath = null;
+                } else {
+                    profilePath = profilePath.replace("'", ""); // Quitar comillas
+                }
+
+                Cast newCast = new Cast(castId, character, creditId, gender, id, name, order, profilePath);
+                castList.add(newCast);
+            } catch (Exception e) {
+            }
+        }
+        return castList;
+    }
+
+    public static MyArrayList<Crew> converterStringCrew(String stringCrew) {
+        if (stringCrew == null || stringCrew.length() < 3) {
+            return new MyArrayList<>();
+        }
+
+        MyArrayList<Crew> crewList = new MyArrayList<>();
+        Pattern pattern = Pattern.compile("\\{'credit_id':\\s*'(.*?)',\\s*'department':\\s*'(.*?)',\\s*'gender':\\s*(\\d+),\\s*'id':\\s*(\\d+),\\s*'job':\\s*'(.*?)',\\s*'name':\\s*'(.*?)',\\s*'profile_path':\\s*(.*?)\\}");
+        Matcher matcher = pattern.matcher(stringCrew);
+
+        while (matcher.find()) {
+            try {
+                Integer creditId = Converters.converterInt(matcher.group(1)); // Se mantiene como String
+                String department = matcher.group(2).replace("'", "''");
+                Integer gender = Converters.converterInt(matcher.group(3));
+                String id = matcher.group(4); // Se convierte a Integer
+                String job = matcher.group(5).replace("'", "''");
+                String name = matcher.group(6).replace("'", "''");
+                String profilePath = matcher.group(7).trim();
+                if (profilePath.equals("None") || profilePath.equals("''")) {
+                    profilePath = null;
+                } else {
+                    profilePath = profilePath.replace("'", "");
+                }
+
+                Crew newCrew = new Crew(creditId, department, gender, id, job, name, profilePath);
+                crewList.add(newCrew);
+            } catch (Exception e) {
+            }
+        }
+        return crewList;
+    }
 }
