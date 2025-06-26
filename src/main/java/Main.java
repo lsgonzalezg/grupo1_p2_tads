@@ -1,6 +1,5 @@
 import um.edu.uy.entities.MoviesUM;
 import java.util.Scanner;
-import um.edu.uy.querys.Query1Top5MoviesRatingsByLanguage;
 
 public class Main {
     public static void main(String[] args) {
