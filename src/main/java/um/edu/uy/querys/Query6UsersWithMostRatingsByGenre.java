@@ -17,7 +17,7 @@ public class Query6UsersWithMostRatingsByGenre {
     }
 
     public void usersWithMostRatingsByGenre() {
-        MyHashTableLineal<Integer, User> topUsersByGenre = new MyHashTableLineal<>(10);
+        MyHashTableLineal<Integer, User> topUsersByGenre = new MyHashTableLineal<>(13);
 
         for (NodeHash<Integer, User> node : users) {
             User user = node.getValor();

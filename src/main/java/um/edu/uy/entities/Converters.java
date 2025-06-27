@@ -129,7 +129,7 @@ public class Converters {
 
         while (matcher.find()) {
             try {;
-                String id = matcher.group(4); // Se convierte a Integer
+                String id = matcher.group(4);
                 String job = matcher.group(5).replace("'", "''");
                 String name = matcher.group(6).replace("'", "''");
 
