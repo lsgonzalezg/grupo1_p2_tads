@@ -5,7 +5,7 @@ import um.edu.uy.tads.MyHashTableLineal;
 
 public class Query3Top5RevenuesByCollections {
 
-    private final MyHashTableLineal<Integer, Collection> collections;
+    private MyHashTableLineal<Integer, Collection> collections;
 
     public Query3Top5RevenuesByCollections(MyHashTableLineal<Integer, Collection> collections) {
         this.collections = collections;
@@ -13,6 +13,7 @@ public class Query3Top5RevenuesByCollections {
 
     public void top5RevenuesByCollections() {
         try {
+            //Creo el top5 como Array ya que no lo puedo hacer en Heap porque la clave seria el revenue y es long (necesito int para nuestra impl)
             Collection[] topCollections = new Collection[5];
             int cant_Collections = 0;
 
@@ -21,8 +22,10 @@ public class Query3Top5RevenuesByCollections {
                 long revenueTotal = collection.calculateTotalRevenue();
 
                 if (cant_Collections < 5) {
+                    //Si no esta lleno lo meto directamente, si tiene un valor mas chico adelante lo cambia.
                     insertSortedByRevenue(topCollections, collection, ++cant_Collections);
                 } else {
+                    //Comparo con el ultimo
                     long worstRevenue = topCollections[4].calculateTotalRevenue();
                     if (revenueTotal > worstRevenue) {
                         insertSortedByRevenue(topCollections, collection, 5);

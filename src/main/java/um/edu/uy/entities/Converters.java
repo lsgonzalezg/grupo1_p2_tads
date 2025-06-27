@@ -1,11 +1,9 @@
 package um.edu.uy.entities;
 import um.edu.uy.tads.MyArrayList;
 import um.edu.uy.tads.MyHashTableLineal;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,103 +68,6 @@ public class Converters {
         return resultado;
     }
 
-    public static Company[] converterStringCompany(String stringCompanies, MyHashTableLineal<Integer, Company> companies) {
-        if (stringCompanies == null) {
-            return new Company[0];
-        }
-        MyArrayList<Company> companyList = new MyArrayList<>();
-
-        Pattern pattern = Pattern.compile("\\{'name'\\s*:\\s*'([^']*)',\\s*'id'\\s*:\\s*(\\d+)\\}");
-        Matcher matcher = pattern.matcher(stringCompanies);
-
-        while (matcher.find()) {
-            try {
-                String name = matcher.group(1);
-                Integer id = Integer.parseInt(matcher.group(2));
-
-                if (companies.belongs(id)) {
-                    companyList.add(companies.search(id));
-                } else {
-                    Company c = new Company(id, name);
-                    companyList.add(c);
-                    companies.insert(id, c);
-                }
-            } catch (Exception e) {
-            }
-        }
-        Company[] result = new Company[companyList.size()];
-        for (int i = 0; i < companyList.size(); i++) {
-            result[i] = companyList.get(i);
-        }
-
-        return result;
-    }
-
-    public static Country[] converterStringCountry(String stringCountries, MyHashTableLineal<String, Country> countries) {
-        if (stringCountries == null) {
-            return new Country[0];
-        }
-        MyArrayList<Country> countriesList = new MyArrayList<>();
-
-        Pattern pattern = Pattern.compile("\\{'iso_3166_1'\\s*:\\s*'([A-Z]{2})'\\s*,\\s*'name'\\s*:\\s*'([^']+)'\\}");
-        Matcher matcher = pattern.matcher(stringCountries);
-
-        while (matcher.find()) {
-            try {
-                String id = matcher.group(1);
-                String name = matcher.group(2);
-
-                if (countries.belongs(id)) {
-                    countriesList.add(countries.search(id));
-                } else {
-                    Country c = new Country(id, name);
-                    countriesList.add(c);
-                    countries.insert(id, c);
-                }
-            } catch (Exception e) {
-            }
-        }
-        Country[] result = new Country[countriesList.size()];
-        for (int i = 0; i < countriesList.size(); i++) {
-            result[i] = countriesList.get(i);
-        }
-
-        return result;
-    }
-
-    public static Language[] converterStringLanguages(String stringLanguages, MyArrayList<Language> languages) {
-        if (stringLanguages == null) {
-            return new Language[0];
-        }
-        MyArrayList<Language> languagesList = new MyArrayList<>();
-
-        Pattern pattern = Pattern.compile("\\{'iso_639_1'\\s*:\\s*'([a-z]{2})'\\s*,\\s*'name'\\s*:\\s*'([^']*)'\\}");
-        Matcher matcher = pattern.matcher(stringLanguages);
-
-        while (matcher.find()) {
-            try {
-                Integer id = Integer.parseInt(matcher.group(1));
-                String name = matcher.group(2);
-                Language aux = new Language(id, name);
-
-                if (languages.pertenece(aux)) {
-                    languagesList.add(languages.get(id));
-                } else {
-                    languagesList.add(aux);
-                    languages.add(aux);
-                }
-            } catch (Exception e) {
-            }
-        }
-        Language[] result = new Language[languagesList.size()];
-        for (int i = 0; i < languagesList.size(); i++) {
-            result[i] = languagesList.get(i);
-        }
-
-        return result;
-
-    }
-
     public static Collection converterStringCollection(String stringCollection, MyHashTableLineal<Integer, Collection> collections) {
         if (stringCollection == null) {
             return null;
@@ -183,10 +84,8 @@ public class Converters {
                     return collections.search(id);
                 } else {
                     String name = matcher.group(2);
-                    String posterPath = matcher.group(3).equals("None") ? null : matcher.group(3).replace("'", "");
-                    String backdropPath = matcher.group(4).equals("None") ? null : matcher.group(4).replace("'", "");
 
-                    Collection newCollection = new Collection(id, name, posterPath, backdropPath);
+                    Collection newCollection = new Collection(id, name);
                     collections.insert(id, newCollection);
                     return newCollection;
                 }
@@ -209,21 +108,9 @@ public class Converters {
 
         while (matcher.find()) {
             try {
-                Integer castId = Converters.converterInt(matcher.group(1));
-                String character = matcher.group(2).replace("'", "''"); // Escapar comillas simples si es necesario para DB, etc.
-                String creditId = matcher.group(3);
-                Integer gender = Converters.converterInt(matcher.group(4));
                 String id = matcher.group(5);
                 String name = matcher.group(6).replace("'", "''");
-                Integer order = Converters.converterInt(matcher.group(7));
-                String profilePath = matcher.group(8).trim(); // Limpiar espacios
-                if (profilePath.equals("None") || profilePath.equals("''")) {
-                    profilePath = null;
-                } else {
-                    profilePath = profilePath.replace("'", ""); // Quitar comillas
-                }
-
-                Cast newCast = new Cast(castId, character, creditId, gender, id, name, order, profilePath);
+                Cast newCast = new Cast(id, name);
                 castList.add(newCast);
             } catch (Exception e) {
             }
@@ -241,21 +128,13 @@ public class Converters {
         Matcher matcher = pattern.matcher(stringCrew);
 
         while (matcher.find()) {
-            try {
-                Integer creditId = Converters.converterInt(matcher.group(1)); // Se mantiene como String
-                String department = matcher.group(2).replace("'", "''");
-                Integer gender = Converters.converterInt(matcher.group(3));
+            try {;
                 String id = matcher.group(4); // Se convierte a Integer
                 String job = matcher.group(5).replace("'", "''");
                 String name = matcher.group(6).replace("'", "''");
-                String profilePath = matcher.group(7).trim();
-                if (profilePath.equals("None") || profilePath.equals("''")) {
-                    profilePath = null;
-                } else {
-                    profilePath = profilePath.replace("'", "");
-                }
 
-                Crew newCrew = new Crew(creditId, department, gender, id, job, name, profilePath);
+
+                Crew newCrew = new Crew(id, job, name);
                 crewList.add(newCrew);
             } catch (Exception e) {
             }

@@ -8,8 +8,8 @@ import um.edu.uy.tads.NodoHeap;
 
 public class Query6UsersWithMostRatingsByGenre {
 
-    private final MyHashTableLineal<Integer, User> users;
-    private final MyHashTableLineal<Integer, Genre> genres;
+    private  MyHashTableLineal<Integer, User> users;
+    private  MyHashTableLineal<Integer, Genre> genres;
 
     public Query6UsersWithMostRatingsByGenre(MyHashTableLineal<Integer, User> users, MyHashTableLineal<Integer, Genre> genres) {
         this.users = users;
@@ -21,6 +21,7 @@ public class Query6UsersWithMostRatingsByGenre {
 
         for (NodeHash<Integer, User> node : users) {
             User user = node.getValor();
+            //Agarro el Hash de cada usuario que la clave es el idGenre
             MyHashTableLineal<Integer, Integer> ratingsPorGenero = user.getRatingsByGenre();
 
             for (NodeHash<Integer, Integer> nodeGenre : ratingsPorGenero) {

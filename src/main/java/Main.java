@@ -66,7 +66,14 @@ public class Main {
             System.out.println("7. Salir");
             System.out.print("Opción: ");
 
-            opcion2 = scanner.nextInt();
+            String input2 = scanner.nextLine();
+
+            try {
+                opcion2 = Integer.parseInt(input2);
+            } catch (NumberFormatException e) {
+                System.out.println("Opción no válida. Intente de nuevo.");
+                continue;
+            }
 
             switch (opcion2) {
                 case 1:

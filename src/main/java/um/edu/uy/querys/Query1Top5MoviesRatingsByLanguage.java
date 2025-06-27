@@ -7,13 +7,14 @@ import um.edu.uy.tads.MyHeapImpl;
 import um.edu.uy.tads.NodeHash;
 
 public class Query1Top5MoviesRatingsByLanguage {
-    private final MyHashTableLineal<Integer, Movie> movies;
+    private MyHashTableLineal<Integer, Movie> movies;
 
     public Query1Top5MoviesRatingsByLanguage(MyHashTableLineal<Integer, Movie> movies) {
         this.movies = movies;
     }
 
     public void top5MoviesRatingsByLanguage() {
+        //Creo los heap para guardar el top en orden con la clave de la cantidad de Ratings
         MyHeapImpl<Integer, Movie> englishTop = new MyHeapImpl<>(5, false);
         MyHeapImpl<Integer, Movie> spanishTop = new MyHeapImpl<>(5, false);
         MyHeapImpl<Integer, Movie> italianTop = new MyHeapImpl<>(5, false);
@@ -29,9 +30,11 @@ public class Query1Top5MoviesRatingsByLanguage {
                 }
                 int numRatings = movie.getRatingsCount();
                 if ("en".equals(movie.getOriginalLanguage())) {
+                    //Si todavia no estsa lleno, lo meto directamente
                     if (englishTop.obtenerTamano() < 5) {
                         englishTop.insert(numRatings, movie);
                     } else {
+                        //Tomo el ultimo que va a ser el que tenga menos Ratings y lo comparo con el que voy a agregar
                         int minRatings = englishTop.peek().getKey();
                         if (numRatings > minRatings) {
                             englishTop.remove();

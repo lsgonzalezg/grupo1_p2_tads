@@ -4,28 +4,19 @@ import um.edu.uy.exceptions.ElementDosentExistException;
 import um.edu.uy.querys.*;
 import um.edu.uy.tads.*;
 import um.edu.uy.exceptions.ElementAlreadyExistException;
-
 import java.io.FileReader;
 import java.time.LocalDate;
-import java.util.Date;
+
 
 public class MoviesUM {
     private MyHashTableLineal<Integer, Movie> movies;
     private MyHashTableLineal<Integer, Genre> genres;
-    private MyArrayList<Ratings> ratings;
-    private MyHashTableLineal<Integer, Company> companies;
-    private MyHashTableLineal<String, Country> countries;
-    private MyArrayList<Language> languages;
     private MyHashTableLineal<Integer, Collection> collections;
     private MyHashTableLineal<Integer, User> users;
 
     public MoviesUM() {
         this.movies = new MyHashTableLineal<>(13);
         this.genres = new MyHashTableLineal<>(13);
-        this.ratings = new MyArrayList<>();
-        this.companies = new MyHashTableLineal<>(13);
-        this.countries = new MyHashTableLineal<>(13);
-        this.languages = new MyArrayList<>();
         this.collections = new MyHashTableLineal<>(13);
         this.users = new MyHashTableLineal<>(13);
     }
@@ -51,24 +42,12 @@ public class MoviesUM {
 
             while ((nextRecord = csvReader.readNext()) != null) {
 
-                addMovie(nextRecord[0],// adult
+                addMovie(
                         nextRecord[1],// belongs_to_collection
-                        nextRecord[2],// budget
                         nextRecord[3],// genres
-                        nextRecord[4],// homepage
                         nextRecord[5],// id
-                        nextRecord[6],// imdb_id
                         nextRecord[7],// original_language
-                        nextRecord[8],// original_title
-                        nextRecord[9],// overview
-                        nextRecord[10],// production_companies
-                        nextRecord[11],// production_countries
-                        nextRecord[12],// release_date
                         nextRecord[13],// revenue
-                        nextRecord[14],// runtime
-                        nextRecord[15],// spoken_languages
-                        nextRecord[16],// status
-                        nextRecord[17],// tagline
                         nextRecord[18]// title
                 );
             }
@@ -77,11 +56,7 @@ public class MoviesUM {
         }
     }
 
-    public void addMovie(String adult, String collection, String budget, String genre,
-                         String homepage, String id, String imdb_id, String originalLenguage,
-                         String originalTitle, String overview, String productionCompanies,
-                         String productionCountry, String releaseDate, String revenue, String runtime,
-                         String spokenLenguages, String status, String tagline, String title) {
+    public void addMovie(String collection, String genre, String id, String originalLenguage, String revenue, String title) {
 
         int intid;
         try {
@@ -92,41 +67,18 @@ public class MoviesUM {
 
         long longRevenue = Converters.converterLong(revenue);
         Genre[] arrayGenres = Converters.converterStringGeneros(genre, genres);
-        Company[] arrayCompany = Converters.converterStringCompany(productionCompanies, companies);
-        Country[] arrayCountry = Converters.converterStringCountry(productionCountry, countries);
-        Language[] arrayLanguages = Converters.converterStringLanguages(spokenLenguages, languages);
         Collection objectCollection = Converters.converterStringCollection(collection, collections);
 
-        Movie newMovie = new Movie(adult,
+        Movie newMovie = new Movie(
                 objectCollection,
-                budget,
                 arrayGenres,
-                homepage,
                 intid,
-                imdb_id,
                 originalLenguage,
-                originalTitle,
-                overview,
-                arrayCompany,
-                arrayCountry,
-                releaseDate,
                 longRevenue,
-                runtime,
-                arrayLanguages,
-                status,
-                tagline,
                 title);
 
         try {
             movies.insert(intid, newMovie);
-
-            if (newMovie.getProductionCompanies() != null) {
-                for (Company company : newMovie.getProductionCompanies()) {
-                    if (company != null) {
-                        company.addMovie(newMovie);
-                    }
-                }
-            }
 
             if (newMovie.getCollection() != null) {
                 Collection colletionOfMovie = newMovie.getCollection();
@@ -207,7 +159,6 @@ public class MoviesUM {
             if (movies.belongs(movieIDint)) {
                 Movie movie = movies.search(movieIDint);
                 movie.addRating(newRating);
-                ratings.add(newRating);
                 if (!users.belongs(userIDint)) {
                     try {
                         users.insert(userIDint, new User(userIDint));
@@ -245,9 +196,8 @@ public class MoviesUM {
     }
 
     public void ejecutarConsulta5() {
-        Query5TopActorsByMonth consulta5 = new Query5TopActorsByMonth();
-        consulta5.TopActorByMonth(movies);
-
+        Query5TopActorsByMonth consulta5 = new Query5TopActorsByMonth(movies);
+        consulta5.TopActorByMonth();
     }
 
     public void ejecutarConsulta6() {

@@ -10,7 +10,7 @@ import um.edu.uy.tads.NodeHash;
 import um.edu.uy.tads.NodoHeap;
 
 public class Query2Top10MoviesByUserRating {
-    private final MyHashTableLineal<Integer, Movie> movies;
+    private MyHashTableLineal<Integer, Movie> movies;
 
     public Query2Top10MoviesByUserRating(MyHashTableLineal<Integer, Movie> movies) {
         this.movies = movies;

@@ -22,9 +22,9 @@ public class User {
                 int actual = 0;
                 if (ratingsByGenre.belongs(genreId)) {
                     actual = ratingsByGenre.search(genreId);
+                    //Borro la vieja para insertar la nueva actualizada
                     ratingsByGenre.borrar(genreId);
                 }
-                ratingsByGenre.borrar(genreId);
                 ratingsByGenre.insert(genreId, actual + 1);
             } catch (Exception e) {
             }

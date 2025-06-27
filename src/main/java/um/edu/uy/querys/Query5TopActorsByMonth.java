@@ -1,16 +1,19 @@
 package um.edu.uy.querys;
-import um.edu.uy.entities.Cast;
-import um.edu.uy.entities.Movie;
-import um.edu.uy.entities.Ratings;
+import um.edu.uy.entities.*;
 import um.edu.uy.tads.MyArrayList;
 import um.edu.uy.tads.MyHashTableLineal;
 import um.edu.uy.tads.NodeHash;
 import java.time.LocalDate;
 
-
 public class Query5TopActorsByMonth {
 
-    public void TopActorByMonth(MyHashTableLineal<Integer, Movie> movies) {
+    private MyHashTableLineal<Integer, Movie> movies;
+
+    public Query5TopActorsByMonth(MyHashTableLineal<Integer, Movie> movies) {
+        this.movies = movies;
+    }
+
+    public void TopActorByMonth() {
         MyHashTableLineal<Integer, MyHashTableLineal<String, Integer>> ratingsByActorAndMonth = new MyHashTableLineal<>(13);
         MyHashTableLineal<Integer, MyHashTableLineal<String, MyHashTableLineal<Integer, Boolean>>> moviesByActorAndMonth = new MyHashTableLineal<>(13);
         MyHashTableLineal<String, String> actorNames = new MyHashTableLineal<>(13);
