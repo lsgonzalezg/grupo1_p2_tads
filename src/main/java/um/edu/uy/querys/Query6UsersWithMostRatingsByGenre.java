@@ -2,7 +2,9 @@ package um.edu.uy.querys;
 import um.edu.uy.entities.User;
 import um.edu.uy.tads.MyHashTableLineal;
 import um.edu.uy.entities.Genre;
+import um.edu.uy.tads.MyHeapImpl;
 import um.edu.uy.tads.NodeHash;
+import um.edu.uy.tads.NodoHeap;
 
 public class Query6UsersWithMostRatingsByGenre {
 
@@ -15,7 +17,7 @@ public class Query6UsersWithMostRatingsByGenre {
     }
 
     public void usersWithMostRatingsByGenre() {
-        MyHashTableLineal<Integer, User> topUsersByGenre = new MyHashTableLineal<>(17);
+        MyHashTableLineal<Integer, User> topUsersByGenre = new MyHashTableLineal<>(10);
 
         for (NodeHash<Integer, User> node : users) {
             User user = node.getValor();
@@ -41,17 +43,29 @@ public class Query6UsersWithMostRatingsByGenre {
             }
         }
 
-        System.out.println("Usuario con más calificaciones por genero:");
+        MyHeapImpl<Integer, NodeHash<Integer, User>> heap = new MyHeapImpl<>(101, true);
+
         for (NodeHash<Integer, User> nodo : topUsersByGenre) {
             int genreId = nodo.getClave();
             User user = nodo.getValor();
             int cantidad = user.getCantRatingsByGenre(genreId);
+            heap.insert(cantidad, nodo);
+        }
+
+        System.out.println("Top 10 géneros con más calificaciones:");
+        int i = 0;
+        while (i < 10 && heap.obtenerTamano() > 0) {
+            NodoHeap<Integer, NodeHash<Integer, User>> nodoHeap = heap.remove();
+            NodeHash<Integer, User> nodo = nodoHeap.getData();
+            int genreId = nodo.getClave();
+            User user = nodo.getValor();
+            int cantidad = nodoHeap.getKey(); // esta es la cantidad
 
             try {
                 Genre genero = genres.search(genreId);
                 System.out.println(user.getId() + "," + genero.getName() + "," + cantidad);
-            } catch (Exception e) {
-            }
+            } catch (Exception e) {}
+            i++;
         }
     }
 }
