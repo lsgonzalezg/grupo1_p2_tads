@@ -5,12 +5,12 @@ public class Cast {
     private String character;
     private String credit_Id;
     private Integer gender;
-    private Integer id;
+    private String id;
     private String name;
     private Integer order;
     private String profile_path;
 
-    public Cast(Integer cast_id, String character, String credit_Id, Integer gender, Integer id, String name, Integer order, String profile_path) {
+    public Cast(Integer cast_id, String character, String credit_Id, Integer gender, String id, String name, Integer order, String profile_path) {
         this.cast_id = cast_id;
         this.character = character;
         this.credit_Id = credit_Id;
@@ -23,5 +23,13 @@ public class Cast {
 
     public String getName() {
         return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Integer getCast_id() {
+        return cast_id;
     }
 }

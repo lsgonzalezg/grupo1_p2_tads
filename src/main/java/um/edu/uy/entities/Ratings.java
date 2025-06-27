@@ -1,13 +1,13 @@
 package um.edu.uy.entities;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Ratings {
     private int userID;
     private int movieID;
     private double score;
-    private Date date;
+    private LocalDate date;
 
-    public Ratings(int userID, int movieID, double score, Date date) {
+    public Ratings(int userID, int movieID, double score, LocalDate date) {
         this.userID = userID;
         this.movieID = movieID;
         this.score = score;
@@ -16,5 +16,9 @@ public class Ratings {
 
     public double getScore(){
         return score;
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 }

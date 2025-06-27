@@ -18,4 +18,16 @@ public class Crew {
         this.name = name;
         this.profile_path = profile_path;
     }
+
+    public String getJob() {
+        return job;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

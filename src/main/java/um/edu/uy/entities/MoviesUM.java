@@ -1,13 +1,12 @@
 package um.edu.uy.entities;
 import com.opencsv.CSVReader;
 import um.edu.uy.exceptions.ElementDosentExistException;
-import um.edu.uy.querys.Query2Top10MoviesByUserRating;
-import um.edu.uy.querys.Query3Top5RevenuesByCollections;
-import um.edu.uy.querys.Query6UsersWithMostRatingsByGenre;
+import um.edu.uy.querys.*;
 import um.edu.uy.tads.*;
 import um.edu.uy.exceptions.ElementAlreadyExistException;
-import um.edu.uy.querys.Query1Top5MoviesRatingsByLanguage;
+
 import java.io.FileReader;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class MoviesUM {
@@ -192,7 +191,7 @@ public class MoviesUM {
         int userIDint;
         int movieIDint;
         double scoreDouble;
-        Date timestampDate;
+        LocalDate timestampDate;
 
         try {
             userIDint = Converters.converterInt(userID);
@@ -241,9 +240,14 @@ public class MoviesUM {
     }
 
     public void ejecutarConsulta4() {
+        Query4Top10DirectorsByRating consulta4 = new Query4Top10DirectorsByRating(movies);
+        consulta4.top10DirectorsByRating();
     }
 
     public void ejecutarConsulta5() {
+        Query5TopActorsByMonth consulta5 = new Query5TopActorsByMonth();
+        consulta5.TopActorByMonth(movies);
+
     }
 
     public void ejecutarConsulta6() {

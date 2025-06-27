@@ -102,4 +102,8 @@ public class Movie {
     public MyArrayList<Cast> getCast() {
         return cast;
     }
+
+    public MyArrayList<Crew> getCrew() {
+        return crew;
+    }
 }

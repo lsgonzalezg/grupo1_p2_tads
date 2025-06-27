@@ -1,6 +1,10 @@
 package um.edu.uy.entities;
 import um.edu.uy.tads.MyArrayList;
 import um.edu.uy.tads.MyHashTableLineal;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,10 +27,10 @@ public class Converters {
         }
     }
 
-    public static Date converterTimestamp(String timestamp) {
+    public static LocalDate converterTimestamp(String timestamp) {
         try {
             long seconds = Long.parseLong(timestamp);
-            return new Date(seconds * 1000);
+            return Instant.ofEpochSecond(seconds).atZone(ZoneId.systemDefault()).toLocalDate();
         } catch (NumberFormatException e) {
             return null;
         }
@@ -209,7 +213,7 @@ public class Converters {
                 String character = matcher.group(2).replace("'", "''"); // Escapar comillas simples si es necesario para DB, etc.
                 String creditId = matcher.group(3);
                 Integer gender = Converters.converterInt(matcher.group(4));
-                Integer id = Converters.converterInt(matcher.group(5));
+                String id = matcher.group(5);
                 String name = matcher.group(6).replace("'", "''");
                 Integer order = Converters.converterInt(matcher.group(7));
                 String profilePath = matcher.group(8).trim(); // Limpiar espacios
