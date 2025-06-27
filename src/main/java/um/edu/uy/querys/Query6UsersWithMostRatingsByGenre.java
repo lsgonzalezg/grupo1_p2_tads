@@ -46,6 +46,8 @@ public class Query6UsersWithMostRatingsByGenre {
 
         MyHeapImpl<Integer, NodeHash<Integer, User>> heap = new MyHeapImpl<>(101, true);
 
+
+        //Inserta los del Hash en el Heap
         for (NodeHash<Integer, User> nodo : topUsersByGenre) {
             int genreId = nodo.getClave();
             User user = nodo.getValor();
