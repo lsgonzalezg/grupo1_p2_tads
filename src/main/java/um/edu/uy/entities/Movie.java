@@ -13,6 +13,7 @@ public class Movie {
     private MyArrayList<Cast> cast;
     private MyArrayList<Crew> crew;
     private int ratingsCount = 0;
+    private double averageRating = 0;
 
     public Movie(Collection collection, Genre[] genres, int id, String originalLanguage, long revenue, String title) {
         this.collection = collection;
@@ -75,5 +76,17 @@ public class Movie {
 
     public MyArrayList<Crew> getCrew() {
         return crew;
+    }
+
+    public void setRatingsCount(int ratingsCount) {
+        this.ratingsCount = ratingsCount;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public void setRatings(MyArrayList<Ratings> ratings) {
+        this.ratings = ratings;
     }
 }
