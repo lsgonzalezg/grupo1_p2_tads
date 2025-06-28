@@ -15,6 +15,7 @@ public class Query2Top10MoviesByUserRating {
     public Query2Top10MoviesByUserRating(MyHashTableLineal<Integer, Movie> movies) {
         this.movies = movies;
     }
+
     public void top10MoviesByUserRating() {
         MyHeapImpl<Double, Integer> moviesAndTheirRating = new MyHeapImpl<Double, Integer>(movies.tamanio(), true);
         for (NodeHash<Integer, Movie> movie : movies) {

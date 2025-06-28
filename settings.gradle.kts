@@ -1,1 +1,1 @@
-rootProject.name = "grupoX-p2-tads"
+rootProject.name = "grupo1-p2-tads"
